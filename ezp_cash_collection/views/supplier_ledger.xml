@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="supplier_ledger_search" model="ir.ui.view">
+        <field name="name">supplier.ledger.customer.search</field>
+        <field name="model">supplier.ledger.customer</field>
+        <field name="arch" type="xml">
+            <search string="Partner_led">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="description"/>
+                <field name="invoice_id"/>
+                <field name="account"/>
+                <field name="account_journal"/>
+                <field name="product_id"/>
+                <field name="date"/>
+                <field name="paid_date"/>
+                <separator/>
+                <filter string='Invoice Date' name="date" domain="[]" context="{'group_by': 'date'}"/>
+                <filter string='Partner' name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                <filter string='Account' name="invoice_id" domain="[]" context="{'group_by': 'account'}"/>
+                <filter string='Account Journal' name="account_journal" domain="[]"
+                        context="{'group_by': 'account_journal'}"/>
+                <filter string='Invoice' name="invoice_id" domain="[]" context="{'group_by': 'invoice_id'}"/>
+                <filter string='Company' name="company_id" domain="[]" context="{'group_by': 'company_id'}"/>
+                <filter string='Product' name="product_id" domain="[]" context="{'group_by': 'product_id'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="supplier_ledger_tree" model="ir.ui.view">
+        <field name="name">supplier.ledger.customer.tree</field>
+        <field name="model">supplier.ledger.customer</field>
+        <field name="arch" type="xml">
+            <tree create="0" editable="top">
+                <field name="id" invisible="1"/>
+                <field name="date" readonly="1"/>
+                <field name="month"/>
+                <field name="partner_id"/>
+                <field name="purchase_id"/>
+                <field name="description" readonly="1"/>
+                <!--                <field name="invoice_id"/>-->
+                <field name="address" invisible="1"/>
+                <!--                <field name="account_journal"/>-->
+                <!--                <field name="account_move"/>-->
+                <!--                <field name="paid_date" readonly="1"/>-->
+                <field name="company_id" readonly="1" invisible="1"/>
+                <field name="product_id" readonly="1"/>
+                <field name="price_units" sum="Unit" readonly="1"/>
+                <field name="uom" readonly="1"/>
+                <field name="rate" sum="Rate" readonly="1"/>
+                <field name="account"/>
+                <field name="account_journal" invisible="1"/>
+                <field name="debit" sum="Debit" readonly="1"/>
+                <field name="credit" sum="Credit" readonly="1"/>
+                <field name="balance" readonly="1"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="actions_supplier_ledger" model="ir.actions.act_window">
+        <field name="name">Supplier Ledger</field>
+        <field name="res_model">supplier.ledger.customer</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="supplier_ledger_search"/>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <!--        <field name="context">{'group_by':'company_id'}</field>-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Supplier Ledger" groups="group_cash_manager1,group_cash_owner"
+              id="menu_supplier" sequence="9"
+              parent="ezp_cash_collection.menu_chq_main"
+              action="actions_supplier_ledger"/>
+
+
+    <record id="purchase_report_custom_tree" model="ir.ui.view">
+        <field name="name">purchase.report.custom.tree</field>
+        <field name="model">purchase.report.custom</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="from_date"/>
+                <field name="to_date"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="purchase_report_custom_form" model="ir.ui.view">
+        <field name="name">purchase.report.custom.form</field>
+        <field name="model">purchase.report.custom</field>
+        <field name="arch" type="xml">
+            <form string="Today Collection">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                            <!--                            <field name="month" attrs="{'invisible': [('style', '!=', 'monthly')]}"/>-->
+                            <field name="partner_id" attrs="{'invisible': [('report_type', '!=', 'partner')]}"/>
+                            <!--                            <field name="product_type" widget="radio" options="{'horizontal': true}"/>-->
+                            <field name="product_group" attrs="{'invisible': [('report_type', '!=', 'grouped')]}"/>
+                            <field name="product_id" attrs="{'invisible': [('report_type', '!=', 'product')]}"/>
+                            <field name="product_groups"
+                                   attrs="{'invisible': ['|',('style','=','monthly'),('report_type', 'in', ('grouped','product'))]}"/>
+                            <field name="product_categ"
+                                   attrs="{'invisible': ['|',('style','=','monthly'),('report_type', 'in', ('grouped','product'))]}"/>
+                            <field name="product_ids"
+                                   attrs="{'invisible': ['|',('style','=','monthly'),('report_type', 'in', ('grouped','product'))]}"/>
+                        </group>
+                        <group>
+
+                            <field name="report_type" widget="radio" options="{'color_field': 'color'}"/>
+                            <field name="style"/>
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page name="Report_Lines" string="Report Lines" attrs="{'invisible':[('style','=','monthly')]}"
+                        >
+                            <field name="report_lines" colspan="4">
+                                <tree string="Report Line" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="invoice_id" invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="company_id"/>
+                                    <field name="paid_date" invisible="1"/>
+                                    <field name="address"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="account" invisible="1"/>
+                                    <field name="price_units" sum="Price"/>
+                                    <field name="uom"/>
+                                    <field name="rate" sum="Rate"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="po_summary" string="Monthly Report"
+                              attrs="{'invisible':[('style','!=','monthly')]}">
+                            <field name="summary_header" colspan="4"
+                                   invisible="1"/>
+
+                            <field name="room_summary" colspan="4" invisible="0"
+                                   widget="Room_Reservation"/>
+                            <field name="summary_footer" colspan="4"
+                                   invisible="1"/>
+
+                            <!--                             <widget name="Room_Reservation"></widget> -->
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_purchase_report_custom" model="ir.actions.act_window">
+        <field name="name">Purchase Report</field>
+        <field name="res_model">purchase.report.custom</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+<!--    <menuitem name="Purchase Report" id="menu_po1"-->
+<!--              action="action_purchase_report_custom" sequence="10"-->
+<!--              parent="ezp_cash_collection.menu_chq_main"/>-->
+
+ <menuitem name="Purchase Report" id="menu_po1" groups="group_cash_manager1,group_cash_owner,account.group_account_manager"
+              action="action_purchase_report_custom" sequence="2"
+              parent="ezp_cash_collection.menu_chq_main"/>
+
+
+    <record id="cash_book_info_search" model="ir.ui.view">
+        <field name="name">cash.book.info.search</field>
+        <field name="model">cash.book.info</field>
+        <field name="arch" type="xml">
+            <search string="Partner_led">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="description"/>
+                <field name="account"/>
+                <field name="account_journal"/>
+                <field name="date"/>
+                <separator/>
+                <filter string='Date' name="date" domain="[]" context="{'group_by': 'date'}"/>
+                <filter string='Partner' name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                <filter string='Account' name="invoice_id" domain="[]" context="{'group_by': 'account'}"/>
+                <filter string='Account Journal' name="account_journal" domain="[]"
+                        context="{'group_by': 'account_journal'}"/>
+                <filter string='Company' name="company_id" domain="[]" context="{'group_by': 'company_id'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="cash_book_info_tree" model="ir.ui.view">
+        <field name="name">cash.book.info.tree</field>
+        <field name="model">cash.book.info</field>
+        <field name="arch" type="xml">
+            <tree create="0" editable="top">
+                <field name="id" invisible="1"/>
+                <field name="date" readonly="1"/>
+                <field name="partner_id" invisible="1"/>
+                <field name="payment_type"/>
+                <field name="description" readonly="1"/>
+                <field name="account_journal"/>
+                <!--                <field name="account_move"/>-->
+                <field name="company_id" readonly="1" invisible="1"/>
+                <field name="account"/>
+                <field name="account_journal" invisible="1"/>
+                <field name="debit" sum="Debit" readonly="1"/>
+                <field name="credit" sum="Credit" readonly="1"/>
+                <field name="balance" readonly="1"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="actions_cash_book_info" model="ir.actions.act_window">
+        <field name="name">Cash Book</field>
+        <field name="res_model">cash.book.info</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="cash_book_info_search"/>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <!--        <field name="context">{'group_by':'company_id'}</field>-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Cash Book"
+              id="menu_cash_book_info" sequence="10" groups="group_cash_manager1,group_cash_owner"
+              parent="ezp_cash_collection.menu_chq_main"
+              action="actions_cash_book_info"/>
+
+
+    <record id="cash_report_custom_tree" model="ir.ui.view">
+        <field name="name">cash.report.custom.tree</field>
+        <field name="model">cash.report.custom</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="from_date"/>
+                <field name="to_date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cash_report_custom_form" model="ir.ui.view">
+        <field name="name">cash.report.custom.form</field>
+        <field name="model">cash.report.custom</field>
+        <field name="arch" type="xml">
+            <form string="Today Collection">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page name="Report_Lines" string="Report Lines"
+                        >
+                            <field name="report_lines" colspan="4">
+                                <tree string="Report Line" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="partner_id" invisible="1"/>
+                                    <field name="partner_type"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="payment_type"/>
+                                    <field name="description"/>
+                                    <field name="account"/>
+                                    <field name="account_journal"/>
+                                    <field name="debit" sum="Debit"/>
+                                    <field name="credit" sum="Credit"/>
+                                    <field name="balance"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="Report_d_Lines" string="Denom Lines">
+                            <field name="report_d_lines" colspan="4">
+                                <tree string="Report Denomi Line" editable="bottom">
+                                    <field name="name"/>
+                                    <field name="money_note"/>
+                                    <field name="money_note_no"/>
+                                    <field name="money_total"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <footer>
+                        <!--                        <button name="print_report" string="Cash Tree"  type="object" class="btn-primary"/>-->
+                        <button name="print_reports" string="CashBook Print" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_cash_report_custom" model="ir.actions.act_window">
+        <field name="name">Cash Book Report</field>
+        <field name="res_model">cash.report.custom</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">form,tree</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+    </record>
+
+<!--    <menuitem name="Cash Book Report" id="menu_ce"-->
+<!--              action="action_cash_report_custom" sequence="11"-->
+<!--              parent="ezp_cash_collection.menu_chq_main"/>-->
+
+
+    <menuitem name="Cash Book Report" id="menu_ce" groups="group_cash_manager1,group_cash_owner"
+              action="action_cash_report_custom" sequence="11"
+              parent="ezp_cash_collection.menu_chq_main"/>
+
+
+    <record id="purchase_profit_repo_view" model="ir.ui.view">
+        <field name="name">purchase.profit.repo.tree</field>
+        <field name="model">purchase.profit.repo</field>
+        <field name="arch" type="xml">
+            <tree edit="0" create="0">
+                <field name="product_id"/>
+                <field name="company_id"/>
+                <!--                <field name="qty"/>-->
+                <!--                <field name="price"/>-->
+                <field name="price_subtotal"/>
+                <field name="discount"/>
+                <field name="sale_price_subtotal"/>
+                <!--                <field name="sale_price"/>-->
+                <field name="profit"/>
+                <!--                <field name="discount"/>-->
+                <!--                <field name="lumpsum_disc" sum="Lum"/>-->
+                <!--                <field name="month_dsc" sum="Month"/>-->
+                <!--                <field name="qty_dsc" sum="Qty_dsc"/>-->
+                <!--                <field name="add_dsc" sum="Add_Dsc"/>-->
+                <!--                <field name="target_dsc" sum="Target_sum"/>-->
+                <!--                <field name="year_dsc" sum="Year_sum"/>-->
+                <!--                <field name="promo_dsc" sum="Promo_Sum"/>-->
+                <!--                <field name="other_dsc" sum="Other_Sum"/>-->
+            </tree>
+
+        </field>
+    </record>
+
+
+    <record id="action_purchase_profit_repo" model="ir.actions.act_window">
+        <field name="name">Profit Report</field>
+        <field name="res_model">purchase.profit.repo</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+<!--    <menuitem name="Profit Report"-->
+<!--              id="men_profit" sequence="12"-->
+<!--              parent="ezp_cash_collection.menu_chq_main"-->
+<!--              action="action_purchase_profit_repo"-->
+<!--    />-->
+
+    <menuitem name="Profit Report" groups="group_cash_manager1,group_cash_owner,account.group_account_manager"
+              id="men_profit" sequence="5"
+              parent="ezp_cash_collection.menu_chq_main"
+              action="action_purchase_profit_repo"
+    />
+
+
+</odoo>

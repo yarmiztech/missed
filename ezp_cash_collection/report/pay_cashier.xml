@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="repo_pay_collection">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ezp_cash_collection.daily_report_pos_layout">
+                    <div class="page">
+                        <h2 style="font-style:oblique;font-weight:bold;">
+                            <center>
+                                <u>
+                                    <span t-field="o.cashier_id"/>
+                                    Collection
+                                </u>
+                            </center>
+                        </h2>
+
+                        <table style="width:100%">
+
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td>
+                                    <u>Purchase Responsible :</u>
+                                </td>
+                                <td>
+                                    <span style="color:blue;" t-field="o.user_id"/>
+                                </td>
+                                <td/>
+                                <td>
+                                    <u>PAYMENT DATE :</u>
+                                </td>
+                                <td>
+                                    <span style="color:blue;" t-field="o.payment_date"/>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <u>PAYMENT TYPE :</u>
+                                </td>
+                                <td>
+                                    <span style="color:blue;" t-field="o.payment_type"/>
+                                </td> <td/>
+                                <td>
+                                    <u>PARTNER TYPE :</u>
+                                </td>
+                                <td style="color:blue;">
+                                    <span t-field="o.partner_type"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#86827f;color:white;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Vendor Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Payment Journal</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Payments</b>
+                                    </center>
+                                </td>
+
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance Amount</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Paid Amount</b>
+                                    </center>
+                                </td>
+
+                            </tr>
+
+                            <t t-foreach="o.partner_invoices" t-as="l">
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.partner_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.date"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.journal_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.payments"/>
+                                        </center>
+                                    </td>
+
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.balance_amount"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.amount_total"/>
+                                        </center>
+                                    </td>
+                                </tr>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                            <tr>
+                                <td colspan="4"/>
+                                <td style="text-align:center;border:1px solid black;color:green">Total Collected
+                                    Amount
+                                </td>
+                                <td style="text-align:center;border:1px solid black;color:red">
+                                    <t t-esc="sum(o.mapped('partner_invoices').mapped('amount_total'))"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

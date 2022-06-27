@@ -1,0 +1,90 @@
+<odoo>
+
+    <record id="cashier_direct_collection_tree" model="ir.ui.view">
+        <field name="name">cashier.direct.collection.tree</field>
+        <field name="model">cashier.direct.collection</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference"/>
+                <field name="cashier_id"/>
+<!--                <field name="user_id"/>-->
+<!--                <field name="payment_type"/>-->
+<!--                <field name="payment_method_id"/>-->
+<!--                <field name="partner_type"/>-->
+                <field name="payment_date"/>
+<!--                <field name="paid_amount"/>-->
+<!--                <field name="bal_amount"/>-->
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="cashier_direct_collection_form" model="ir.ui.view">
+        <field name="name">cashier.direct.collection.form</field>
+        <field name="model">cashier.direct.collection</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection">
+                <header>
+                    <button name="action_confirm"
+                            type="object" states="draft,cancel"
+                            string="Payments confirm"
+                            class="oe_highlight" id="approve_con"/>
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+<!--                        <field name="payment_type"/>-->
+<!--                        <field name="source"/>-->
+<!--                        <field name="user_id"/>-->
+                        <field name="cashier_id"/>
+<!--                        <field name="payment_method_id"/>-->
+<!--                        <field name="partner_type"/>-->
+                        <field name="payment_date"/>
+<!--                        <field name="paid_amount"/>-->
+<!--                        <field name="bal_amount"/>-->
+
+                    </group>
+                    <notebook>
+                        <page name="exec coll" string="Direct Cashier Collection">
+                            <field name="partner_invoices" colspan="4" >
+                                <tree string="Room Line" editable="bottom">
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+<!--                                    <field name="journal_id"/>-->
+<!--                                    <field name="balance_amount"/>-->
+                                    <field name="amount_total"/>
+<!--                                    <field name="bal_total"/>-->
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cashier_direct_collection" model="ir.actions.act_window">
+        <field name="name">Cashier Direct Collection</field>
+        <field name="res_model">cashier.direct.collection</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <!--    <menuitem name="Collection" id="menu_cashier_direct_collection"-->
+    <!--              action="action_cashier_direct_collection" sequence="10"-->
+    <!--              parent="menu_cash_collection1" groups="account.group_account_manager,account.group_account_invoice"/>-->
+    <menuitem name="Cashier Direct Collection" id="menu_cashier_direct_collectionS"
+              action="action_cashier_direct_collection" sequence="11"
+              parent="ezp_estimate.menu_cashier" groups="account.group_account_manager,account.group_account_invoice,group_cash_owner"/>
+
+
+
+
+</odoo>

@@ -1,0 +1,324 @@
+<odoo>
+ <record id="res_partner_view_cash" model="ir.ui.view">
+        <field name="name">res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="after">
+                <field name="tcs"/>
+            </xpath>
+        </field>
+ </record>
+    <record id="purchase_1_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+
+
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="invoiced_number"/>
+                <field name="invoiced_date"/>
+                <field name="purchase_date"/>
+                <field name="vehicle_no"/>
+            </xpath>
+
+            <xpath expr="//field[@name='amount_tax']" position="after">
+                <field name="grand_total"/>
+               <field name="amount_tcs"/>
+            </xpath>
+
+
+            <xpath expr="//button[@name='button_confirm']" position="replace">
+                <button name="button_confirm" type="object" string="Confirm Order" class="oe_highlight" id="bid_confirm" invisible="1"/>
+                <button name="button_confirm_ezp" type="object" states="draft" string="Confirm Order" class="oe_highlight" />
+            </xpath>
+            <xpath expr="//button[@id='draft_confirm']" position="replace">
+            <button name="button_confirm" type="object" states="draft" string="Confirm Order" id="draft_confirm" invisible="1"/>
+            </xpath>
+
+
+            <xpath expr="//field[@name='order_line']//tree//field[@name='price_unit']" position="before">
+                            <field name="including_price" string="Grand Total"/>
+
+            </xpath>
+
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_qty']" position="replace">
+                            <field name="product_qty" />
+
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_uom']" position="replace">
+                            <field name="product_uom" string="UOM"/>
+
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='taxes_id']" position="replace">
+                <field name="taxes_id" widget="many2many_tags" domain="[('type_tax_use','=','purchase')]" context="{'default_type_tax_use': 'purchase', 'search_view_ref': 'account.account_tax_view_search'}" options="{'no_create': True}"/>
+
+            </xpath>
+            <xpath expr="//field[@name='order_line']//tree//field[@name='product_qty']" position="before">
+                <field name="to_company"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="purchase_collection_tree" model="ir.ui.view">
+        <field name="name">purchase.payments.tree</field>
+        <field name="model">purchase.payments</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference"/>
+                <field name="purchase_id"/>
+                <field name="user_id"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="payment_date"/>
+                <field name="paid_amount"/>
+                <field name="bal_amount"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="purchase_collection_form" model="ir.ui.view">
+        <field name="name">purchase.payments.form</field>
+        <field name="model">purchase.payments</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection">
+                <header>
+                    <button name="action_confirm"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_cancel"/>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Confirm"-->
+                    <!--                            class="oe_highlight" id="approve_con"/>-->
+                    <!--                    <button name="action_statement"-->
+                    <!--                            type="object"-->
+                    <!--                            string="PRINT STATEMENT" groups="ezp_cash_collection.group_cash_purchase"-->
+                    <!--                            class="oe_highlight" id="approve_stmt"/>-->
+                    <button name="action_statement_cashier"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="PRINT STATEMENT CASHIER"
+                            class="oe_highlight" id="approve_stmt1"/>
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <field name="payment_type"/>
+                        <field name="user_id"
+                               attrs="{'required':[('state','=','draft')], 'readonly':[('state','!=','draft')]}"/>
+                        <field name="cashier_id" groups="ezp_cash_collection.group_cash_manager1"/>
+                        <field name="payment_method_id"/>
+                        <field name="partner_type"/>
+                        <field name="other_company"/>
+                        <field name="payment_date"/>
+                        <field name="paid_amount"/>
+                        <field name="bal_amount"/>
+                        <field name="purchase_id"/>
+                        <!--                        <field name="journal_id"/>-->
+
+                    </group>
+                    <notebook>
+                        <page name="cash coll" string="Cash Collection">
+                            <field name="partner_invoices" colspan="4">
+                                <tree string="Room Line" editable="bottom">
+<!--                                    <field name="partner_id" domain="[('supplier','=',True)]"/>-->
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="product_id"/>
+                                    <field name="balance_amount"/>
+                                    <field name="company_id" invisible="1"/>
+                                    <field name="amount_total"/>
+                                    <field name="journal_id"/>
+                                    <field name="bal_amount"/>
+                                    <field name="payments" widget="many2many_tags" readonly="1"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_collection" model="ir.actions.act_window">
+        <field name="name">Purchase Payments</field>
+        <field name="res_model">purchase.payments</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('other_company','=',False)]</field>
+        <!--        <field name="domain">[]</field>-->
+        <field name="context">{}</field>
+    </record>
+    <record id="action_purchase_collection_o" model="ir.actions.act_window">
+        <field name="name">Purchase Payments</field>
+        <field name="res_model">purchase.payments</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('other_company','=',True)]</field>
+        <!--        <field name="domain">[]</field>-->
+        <field name="context">{}</field>
+    </record>
+    <!--    <menuitem name="Purchase Payments" id="menu_purchase_payments"-->
+    <!--              action="action_purchase_collection" sequence="3" groups="ezp_cash_collection.group_cash_purchase,ezp_cash_collection.group_cash_manager1"-->
+    <!--              parent="menu_cash_collection1"/>-->
+    <menuitem name="Purchase Payments" id="menu_pur"
+              groups="ezp_cash_collection.group_cash_purchase,group_cash_owner,ezp_cash_collection.group_cash_manager1"
+              parent="ezp_estimate.menu_pe"/>
+    <menuitem name="Purchase Payments" id="menu_purchase_payments"
+              action="action_purchase_collection" sequence="1"
+              groups="ezp_cash_collection.group_cash_purchase,group_cash_owner,ezp_cash_collection.group_cash_manager1"
+              parent="menu_pur"/>
+    <menuitem name="Other Purchase Payments" id="menu_purchase_payments_o"
+              action="action_purchase_collection_o" sequence="2"
+              groups="ezp_cash_collection.group_cash_purchase,ezp_cash_collection.group_cash_manager1"
+              parent="menu_pur"/>
+
+
+    <record id="purchase_remainder_tree" model="ir.ui.view">
+        <field name="name">purchase.remainder.tree</field>
+        <field name="model">purchase.remainder</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="company_id"/>
+                <field name="product_id"/>
+                <field name="product_uom"/>
+                <field name="ordered_qty"/>
+                <field name="available_qty"/>
+                <field name="reserved_qty"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="purchase_remainder_form" model="ir.ui.view">
+        <field name="name">purchase.remainder.form</field>
+        <field name="model">purchase.remainder</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection">
+                <header>
+                       <button name="action_confirm"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="Create Purchase Quotation" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con"/>
+
+                                        <field name="state" select="2" widget="statusbar"
+                                               statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+<!--                    <div class="oe_title">-->
+<!--                        <h1>-->
+<!--                            <field name="name" readonly="1"/>-->
+<!--                        </h1>-->
+<!--                    </div>-->
+                    <group>
+                        <group string="Product Info">
+                            <field name="company_id"/>
+                            <field name="product_id"/>
+                            <field name="product_uom"/>
+                        </group>
+                        <group string="Quantity">
+                            <field name="ordered_qty" style="color:red;"/>
+                            <field name="available_qty"/>
+                            <field name="reserved_qty"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+     <record id="action_purchase_remainder" model="ir.actions.act_window">
+        <field name="name">Purchase Remainder</field>
+        <field name="res_model">purchase.remainder</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+     <menuitem name="Purchase Remainder" id="menu_purchase_remainder"
+              action="action_purchase_remainder" sequence="4"
+              groups="ezp_cash_collection.group_cash_purchase,group_cash_owner,ezp_cash_collection.group_cash_manager1"
+              parent="ezp_estimate.menu_pe"/>
+
+
+<!--    <record id="view_account_payment_estim" model="ir.ui.view">-->
+<!--            <field name="name">account.payment.form.inherit</field>-->
+<!--            <field name="model">account.payment</field>-->
+<!--&lt;!&ndash;            <field name="inherit_id" ref="account.view_account_payment_invoice_form" />&ndash;&gt;-->
+<!--            <field name="inherit_id" ref="account.view_account_payment_form" />-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                    <xpath expr="//button[@name='action_validate_invoice_payment']" position="replace">-->
+<!--                        <button string='Validate' name="action_validate_invoice_payment_est" type="object" class="btn-primary"/>-->
+<!--                    </xpath>-->
+<!--            </field>-->
+<!--    </record>-->
+
+<!--           <record id="view_account_payment_invoice_form" model="ir.ui.view">-->
+<!--            <field name="name">account.payment.invoice.form</field>-->
+<!--            <field name="model">account.payment</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <form string="Register Payment">-->
+<!--                    <sheet>-->
+<!--                        <group>-->
+<!--                            <field name="payment_type" invisible="1"/>-->
+<!--                            <field name="partner_type" invisible="1"/>-->
+<!--                            <field name="invoice_ids" invisible="1"/>-->
+<!--                            <field name="partner_id" invisible="1"/>-->
+<!--                            <field name="state" invisible="1"/>-->
+<!--                            <group>-->
+<!--                                <label for="amount"/>-->
+<!--                                <div name="amount_div" class="o_row">-->
+<!--                                    <field name="amount"/>-->
+<!--                                    <field name="currency_id" options="{'no_create': True, 'no_open': True}" groups="base.group_multi_currency"/>-->
+<!--                                </div>-->
+<!--                                <field name="journal_id" widget="selection" attrs="{'invisible': [('amount', '=', 0)]}"/>-->
+<!--                                <field name="hide_payment_method" invisible="1"/>-->
+<!--                                <field name="payment_method_id" widget="radio" attrs="{'invisible': ['|', ('hide_payment_method', '=', True), ('amount', '=', 0.0)]}"/>-->
+<!--                                <field name="partner_bank_account_id" attrs="{'invisible': [('show_partner_bank_account', '!=', True)], 'required': [('show_partner_bank_account', '=', True)], 'readonly': [('state', '!=', 'draft')]}" context="{'default_partner_id': partner_id}"/>-->
+<!--                                <field name="show_partner_bank_account" invisible="1"/>-->
+<!--                                <field name="payment_method_code" invisible="1"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="payment_date"/>-->
+<!--                                <field name="communication"/>-->
+<!--                            </group>-->
+<!--                            <group attrs="{'invisible': [('payment_difference', '=', 0.0)]}">-->
+<!--                                <label for="payment_difference"/>-->
+<!--                                <div>-->
+<!--                                    <field name="payment_difference"/>-->
+<!--                                    <field name="payment_difference_handling" widget="radio" nolabel="1"/>-->
+<!--                                    <div attrs="{'invisible': [('payment_difference_handling','=','open')]}">-->
+<!--                                        <label for="writeoff_account_id" class="oe_edit_only" string="Post Difference In"/>-->
+<!--                                        <field name="writeoff_account_id" string="Post Difference In" attrs="{'required': [('payment_difference_handling', '=', 'reconcile'), ('payment_difference', '!=', 0.0)]}"/>-->
+<!--                                        <label for="journal_id" string="Journal" attrs="{'invisible': [('amount', '!=', 0)]}"/>-->
+<!--                                        <field name="journal_id" string="Journal" widget="selection" attrs="{'invisible': [('amount', '!=', 0)]}"/>-->
+<!--                                        <label for="writeoff_label" class="oe_edit_only" string="Label"/>-->
+<!--                                        <field name="writeoff_label" attrs="{'required': [('payment_difference_handling', '=', 'reconcile'), ('payment_difference', '!=', 0.0)]}"/>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </group>-->
+<!--                        </group>-->
+<!--                    </sheet>-->
+<!--                    <footer>-->
+<!--                        <button string='Validate' name="action_validate_invoice_payment" type="object" class="btn-primary"/>-->
+<!--                        <button string="Cancel" class="btn-secondary" special="cancel"/>-->
+<!--                    </footer>-->
+<!--                </form>-->
+<!--            </field>-->
+<!--        </record>-->
+
+</odoo>

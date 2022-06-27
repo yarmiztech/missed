@@ -1,0 +1,114 @@
+<odoo>
+
+    <record id="cash_collection_tree" model="ir.ui.view">
+        <field name="name">cash.collection.tree</field>
+        <field name="model">cash.collection</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="partner_id"/>
+                <field name="payment_date"/>
+                <field name="journal_id"/>
+                <field name="total_amount"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="cash_collection_form" model="ir.ui.view">
+        <field name="name">cash.collection.form</field>
+        <field name="model">cash.collection</field>
+        <field name="arch" type="xml">
+            <form string="Cah Collection">
+                <header>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <button name="action_statement"
+                            type="object"
+                            string="PRINT STATEMENT"
+                            class="oe_highlight" id="approve_stmt"/>
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group ><group>
+                        <field name="payment_type"/>
+                        <field name="partner_id"/>
+                        <field name="another_area"/>
+                        <field name="total_amount" readonly="1"/>
+                    </group>
+                        <group>
+
+                        <field name="payment_method_id"/>
+                        <field name="partner_type"/>
+                            <field name="payment_date"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="cash coll" string="Cash Collection">
+                            <field name="partner_invoices" colspan="4">
+                                <tree string="Room Line" editable="bottom">
+                                    <field name="invoice_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="invoice_date"/>
+                                    <field name="invoice_due_date"/>
+                                    <field name="state"/>
+                                    <field name="amount_total"/>
+                                    <field name="residual"/>
+                                    <field name="total" invisible="1"/>
+                                    <field name="total_paid"/>
+                                    <field name="payments" widget="many2many_tags"/>
+
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_cash_collection" model="ir.actions.act_window">
+        <field name="name">Bulk Collections &amp; Payments</field>
+        <field name="res_model">cash.collection</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <!--    <menuitem name="Collection" id="menu_cash_collection1"-->
+    <!--              sequence="4" groups="group_cash_manager1,group_cash_user,group_cash_expenses,group_cash_purchase"-->
+    <!--              parent="ezp_estimate.menu_estimate"/>-->
+    <menuitem name="Collection" id="menu_cash_collection1"
+              sequence="4" groups="group_cash_manager1,group_cash_user,group_cash_expenses,group_cash_purchase,group_cash_owner"
+              parent="ezp_estimate.menu_se"/>
+    <menuitem name="Cheques" id="menu_chq_collection1"
+              sequence="5" groups="group_cash_manager1,group_cash_user,group_cash_expenses,group_cash_purchase,group_cash_owner"
+              parent="ezp_estimate.menu_se"/>
+<!--    <menuitem name="Bulk Collections &amp; Payments" id="menu_cash_collection"-->
+<!--              action="action_cash_collection" sequence="1"-->
+<!--              groups="group_cash_manager1,group_cash_user,account.group_account_manager,account.group_account_invoice"-->
+<!--              parent="ezp_estimate.menu_cashier"/>-->
+ <menuitem name="Bulk Collections &amp; Payments" id="menu_cash_collection"
+              action="action_cash_collection" sequence="1"
+              groups="group_cash_manager1,group_cash_owner"
+              parent="ezp_estimate.menu_cashier"/>
+
+    <menuitem name="Estimate Orders"
+              id="ezp_estimate.menu_estimate_orders"
+              parent="ezp_estimate.menu_estimate_main" groups="group_cash_user,group_cash_manager1,group_cash_owner"
+              action="ezp_estimate.action_orders" sequence="1"
+    />
+
+</odoo>

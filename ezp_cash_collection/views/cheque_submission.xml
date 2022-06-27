@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cheque_submission_search" model="ir.ui.view">
+        <field name="name">cheque.submission.search</field>
+        <field name="model">cheque.submission</field>
+        <field name="arch" type="xml">
+            <search string="Cheques">
+                <field name="ref_id"/>
+                <field name="partner_id"/>
+                <field name="check_no"/>
+                <field name="holder_name"/>
+                <field name="bank_name"/>
+                <field name="debited_account"/>
+                <field name="date"/>
+                <field name="state"/>
+                <separator/>
+                <filter string='Cheque Date' name="date" domain="[]" context="{'group_by': 'date'}"/>
+                <filter string='Partner' name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                <filter string='Source' name="ref_id" domain="[]" context="{'group_by': 'ref_id'}"/>
+                <filter string='Bank Name' name="bank_name" domain="[]" context="{'group_by': 'bank_name'}"/>
+                <filter string='Cheque NO' name="check_no" domain="[]" context="{'group_by': 'check_no'}"/>
+                <filter string='State' name="state" domain="[]" context="{'group_by': 'state'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="cheque_submission_tree" model="ir.ui.view">
+        <field name="name">cheque.submission.tree</field>
+        <field name="model">cheque.submission</field>
+        <field name="arch" type="xml">
+            <tree create="0" decoration-success="state == 'draft'">
+                <field name="check_line" invisible="1"/>
+                <field name="advance_check_line" invisible="1"/>
+                <field name="partner_id"/>
+                <field name="sales_person"/>
+                <field name="ref_id" invisible="1"/>
+                <field name="check_no"/>
+                <field name="holder_name"/>
+                <field name="date"/>
+                <field name="submitted_date"/>
+                <field name="from_date" invisible="1"/>
+                <field name="to_date" invisible="1"/>
+                <field name="check_type"/>
+                <field name="bank_name"/>
+                <field name="debited_account"/>
+                <field name="balance_amount"/>
+                <field name="amount_total"/>
+                <field name="postpone_date"/>
+                <field name="status" invisible="1"/>
+                <field name="state"/>
+                <field name="type_state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actions_cheque_submission" model="ir.actions.act_window">
+        <field name="name">Cheque Submission Report</field>
+        <field name="res_model">cheque.submission</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem name="Cheque Submission Report"
+              id="menu_cheque_subm" sequence="1"
+              parent="ezp_cash_collection.menu_chq_main"
+              action="actions_cheque_submission"/>
+
+
+    <record id="partner_ledger_customer_search" model="ir.ui.view">
+        <field name="name">partner.ledger.customer.search</field>
+        <field name="model">partner.ledger.customer</field>
+        <field name="arch" type="xml">
+            <search string="Partner_led">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="description"/>
+                <field name="invoice_id"/>
+                <field name="account"/>
+                <field name="account_journal"/>
+                <field name="product_id"/>
+                <field name="date"/>
+                <field name="paid_date"/>
+                <separator/>
+                <filter string='Invoice Date' name="date" domain="[]" context="{'group_by': 'date'}"/>
+                <filter string='Partner' name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                <filter string='Account' name="invoice_id" domain="[]" context="{'group_by': 'account'}"/>
+                <filter string='Account Journal' name="account_journal" domain="[]"
+                        context="{'group_by': 'account_journal'}"/>
+                <filter string='Invoice' name="invoice_id" domain="[]" context="{'group_by': 'invoice_id'}"/>
+                <filter string='Company' name="company_id" domain="[]" context="{'group_by': 'company_id'}"/>
+                <filter string='Product' name="product_id" domain="[]" context="{'group_by': 'product_id'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="partner_ledger_tree" model="ir.ui.view">
+        <field name="name">partner.ledger.customer.tree</field>
+        <field name="model">partner.ledger.customer</field>
+        <field name="arch" type="xml">
+            <tree create="0" editable="top">
+                <field name="id" invisible="1"/>
+                <field name="date" readonly="1"/>
+                <field name="partner_id"/>
+                <field name="estimate_id"/>
+                <field name="description" readonly="1"/>
+                <field name="check_only" invisible="1"/>
+                <field name="invoice_id"/>
+                <field name="in_vehicle_id" invisible="1"/>
+                <field name="area" invisible="1"/>
+                <field name="executive_area" invisible="1"/>
+                <field name="vehicle_id" invisible="1"/>
+                <field name="transport_receipt" invisible="1"/>
+                <field name="gate_pass" invisible="1"/>
+                <field name="address" invisible="1"/>
+                <field name="account_journal"/>
+                <field name="account_move"/>
+                <field name="paid_date" readonly="1"/>
+                <field name="company_id" readonly="1" invisible="1"/>
+                <field name="product_id" readonly="1"/>
+                <field name="price_units" sum="Unit" readonly="1"/>
+                <field name="uom" readonly="1"/>
+                <field name="rate" sum="Rate" readonly="1"/>
+                <field name="account"/>
+                <field name="account_journal" invisible="1"/>
+                <field name="debit" sum="Debit" readonly="1"/>
+                <field name="credit" sum="Credit" readonly="1"/>
+                <field name="balance" readonly="1"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="partner_ledgers_tree" model="ir.ui.view">
+        <field name="name">partner.ledgers.customer.tree</field>
+        <field name="model">partner.ledgers.customer</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="date"/>
+                <field name="month"/>
+                <field name="partner_id"/>
+                <field name="paid_date"/>
+                <field name="description"/>
+                <field name="in_vehicle_id"/>
+                <field name="area"/>
+                <field name="executive_area"/>
+                <field name="vehicle_id"/>
+                <field name="transport_receipt"/>
+                <field name="gate_pass"/>
+                <field name="address"/>
+                <field name="invoice_id"/>
+                <field name="company_id"/>
+                <field name="product_id"/>
+                <field name="price_units" sum="Unit"/>
+                <field name="uom"/>
+                <field name="rate" sum="Rate"/>
+                <field name="account"/>
+                <field name="account_journal" invisible="1"/>
+                <field name="debit" sum="Debit"/>
+                <field name="credit" sum="Credit"/>
+                <field name="balance" sum="Balance"/>
+
+            </tree>
+        </field>
+    </record>
+    <record id="actions_partner_ledger" model="ir.actions.act_window">
+        <field name="name">Partner Ledger</field>
+        <field name="res_model">partner.ledger.customer</field>
+        <field name="view_mode">tree</field>
+        <field name="search_view_id" ref="partner_ledger_customer_search"/>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+
+<!--        <field name="context">{'group_by':'company_id'}</field>-->
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+    <record id="actions_partner_ledgers" model="ir.actions.act_window">
+        <field name="name">Summary Reference</field>
+        <field name="res_model">partner.ledgers.customer</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+    <menuitem name="Partner Ledger"
+              id="menu_partner" sequence="8"
+              parent="ezp_cash_collection.menu_chq_main"
+              action="actions_partner_ledger"/>
+
+<!--    <menuitem name="Summary Reference"-->
+<!--              id="menu_partners" sequence="9"-->
+<!--              parent="menu_chq_collection1"-->
+<!--              action="actions_partner_ledgers" />-->
+
+
+</odoo>

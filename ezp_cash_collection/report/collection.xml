@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report id="direct_collection_id"
+                model="data.entry"
+                string="Direct Collections"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_direct_collection"
+                file="ezp_cash_collection.repo_direct_collection"/>
+        <report id="cash_payments_print"
+                model="cash.collection"
+                string="Cash and Payments"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_cash_pay"
+                file="ezp_cash_collection.repo_cash_pay"/>
+        <report id="executive_collection_id"
+                model="executive.collection"
+                string="Sales Executive Collections"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_executive_collection"
+                file="ezp_cash_collection.repo_executive_collection"/>
+        <report id="casheir_dcollection_id"
+                model="data.entry"
+                string="Cashier Collections"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_dcashier_collection"
+                file="ezp_cash_collection.repo_dcashier_collection"/>
+        <report id="casheir_collection_id"
+                model="executive.collection"
+                string="Cashier Collections"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_cashier_collection"
+                file="ezp_cash_collection.repo_cashier_collection"/>
+        ################Xpenses REports#######################
+        <report id="expense_payments_report"
+                model="expense.payments"
+                string="Expenses Payments"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_exepense_collection"
+                file="ezp_cash_collection.repo_exepense_collection"/>
+
+
+        ##############Purchase###################
+
+        <report id="purchase_collection_id"
+                model="purchase.payments"
+                string="Purchase Payments"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_pay_collection"
+                file="ezp_cash_collection.repo_pay_collection"/>
+        <report id="test_div"
+                model="purchase.payments"
+                string="Purchase Payments"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_test_div"
+                file="ezp_cash_collection.repo_test_div"/>
+        <report id="executive_cheque_collection_id"
+                model="executive.cheque.collection"
+                string="Executive Cheque Collections"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_cheque_collection"
+                file="ezp_cash_collection.repo_cheque_collection"/>
+        <report id="executive_cheque_collection_id1"
+                model="today.cheques"
+                string="Today Cheques"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_cheque_collection1"
+                file="ezp_cash_collection.repo_cheque_collection1"/>
+        <report id="casheir_cheque_collection_id"
+                model="executive.cheque.collection"
+                string="Cashier Collections"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_c1_cashier_collection"
+                file="ezp_cash_collection.repo_c1_cashier_collection"/>
+
+        <report id="daybook_summary_record"
+                model="daybook.summary"
+                string="DayBook Summary"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_daybook_summary"
+                file="ezp_cash_collection.repo_daybook_summary"/>
+
+        <report id="partner_ledger_customer"
+                model="partner.ledger.customer"
+                string="All Print"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_ledger"
+                file="ezp_cash_collection.repo_ledger"/>
+
+        <report id="partner_ledger_customerss"
+                model="partner.ledger.report"
+                string="Print Report"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_ledger1"
+                file="ezp_cash_collection.repo_ledger1"/>
+
+<!--        <report id="expenses_ledger_reports"-->
+<!--                model="expenses.disc"-->
+<!--                string="Expenses Report"-->
+<!--                report_type="qweb-pdf"-->
+<!--                name="ezp_cash_collection.repo_expenses_ledger"-->
+<!--                file="ezp_cash_collection.repo_expenses_ledger"/>-->
+
+
+        <report id="cashbook_customers"
+                model="cash.report.custom"
+                string="Print CashBook Report"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.repo_cashbook"
+                file="ezp_cash_collection.repo_cashbook"/>
+
+        <report id="estimate_type_report"
+                model="estimate.type.report"
+                string="Type Of Estimate"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.estimate_type_report_view"
+                file="ezp_cash_collection.estimate_type_report_view"/>
+
+
+        <report
+                id="eway_sale_order"
+                model="sale.order"
+                string="E-way Bill"
+                report_type="qweb-pdf"
+                name="ezp_cash_collection.eway_pdf"
+                file="ezp_cash_collection.eway_pdf"
+                attachment_use="False"/>
+
+         <report
+                        id="einvoice_sale_order"
+                        model="account.move"
+                        string="E-Invoice"
+                        report_type="qweb-pdf"
+                        name="ezp_cash_collection.einv_invoice_report_doc"
+                        file="ezp_cash_collection.einv_invoice_report_doc"
+                        attachment_use="False"/>
+
+
+    </data>
+</odoo>

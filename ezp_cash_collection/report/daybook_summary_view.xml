@@ -1,0 +1,1650 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="repo_daybook_summary">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ezp_cash_collection.daily_report_pos_layout">
+                    <div class="page">
+                        <h2 style="font-style:oblique;font-weight:bold;">
+                            <center>
+                                <u><t t-esc="o.start_date"/> Collections &amp; Payments</u>
+                            </center>
+                        </h2>
+                        <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Sale Executive Collections</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+<!--                            <tr>-->
+<!--                                &lt;!&ndash;                            <td>Sales Executive</td><td colspan="5"><span style="color:blue;" t-field="o.estimator"/></td>&ndash;&gt;-->
+<!--                                <td style="color:#ca0c37;">Date:</td>-->
+<!--                                <td>-->
+<!--                                    <span t-field="o.start_date"/>-->
+<!--                                </td>-->
+<!--                                &lt;!&ndash;                            <td style="color:#ca0c37;">End Date:</td><td><span t-field="o.end_date"/>)</td>&ndash;&gt;-->
+<!--                            </tr>-->
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cashier Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Sales Executive</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Payment Journal</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance Amount</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Amount Total</b>
+                                    </center>
+                                </td>
+                                <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payments</b></center></td>-->
+
+                            </tr>
+
+                            <t t-foreach="o.cash_executive()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+                                            <span t-field="k.cashier_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+                                            <span t-field="k.user_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+                                <t t-foreach="k.partner_invoices" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.partner_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.journal_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.balance_amount"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.amount_total"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="6" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.total()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                        </table>
+                                                <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Direct Collections</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+<!--                            <tr>-->
+<!--                                &lt;!&ndash;                            <td>Sales Executive</td><td colspan="5"><span style="color:blue;" t-field="o.estimator"/></td>&ndash;&gt;-->
+<!--                                <td style="color:#ca0c37;">Date:</td>-->
+<!--                                <td>-->
+<!--                                    <span t-field="o.start_date"/>-->
+<!--                                </td>-->
+<!--                                &lt;!&ndash;                            <td style="color:#ca0c37;">End Date:</td><td><span t-field="o.end_date"/>)</td>&ndash;&gt;-->
+<!--                            </tr>-->
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cashier Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Sales Executive</b>
+                                    </center>
+                                </td>
+
+<!--                                <td colspan="1" style="border:1px solid black;">-->
+<!--                                    <center>-->
+<!--                                        <b>Estimate</b>-->
+<!--                                    </center>-->
+<!--                                </td> -->
+<!--                                <td colspan="1" style="border:1px solid black;">-->
+<!--                                    <center>-->
+<!--                                        <b>Invoice</b>-->
+<!--                                    </center>-->
+<!--                                </td>-->
+                                 <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Payment Journal</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance Amount</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Amount Total</b>
+                                    </center>
+                                </td>
+                                <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payments</b></center></td>-->
+
+                            </tr>
+
+                            <t t-foreach="o.cash_direct_executive()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+                                            <span t-field="k.cashier_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+<!--                                    <td colspan="1" style="border:1px solid black;">-->
+<!--                                        <center></center>-->
+<!--                                    </td>-->
+<!--                                    <td colspan="1" style="border:1px solid black;">-->
+<!--                                        <center></center>-->
+<!--                                    </td>-->
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td> <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+                                            <span t-field="k.user_id"/>
+                                        </center>
+                                    </td>
+<!--                                    <td colspan="1" style="border:1px solid black;">-->
+<!--                                        <center></center>-->
+<!--                                    </td>-->
+<!--                                    <td colspan="1" style="border:1px solid black;">-->
+<!--                                        <center></center>-->
+<!--                                    </td>-->
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+                                <t t-foreach="k.partner_invoices" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+<!--                                                <span t-field="l.estimate_id"/>-->
+                                                <span t-field="l.partner_id"/>
+                                            </center>
+                                        </td>
+<!--                                        <td colspan="1" style="border:1px solid black;">-->
+<!--                                            <center>-->
+<!--&lt;!&ndash;                                                <span t-field="l.invoice_id"/>&ndash;&gt;-->
+<!--                                            </center>-->
+<!--                                        </td>-->
+<!--                                        <td colspan="1" style="border:1px solid black;">-->
+<!--                                            <center>-->
+<!--                                                <span t-field="l.partner_id"/>-->
+<!--                                            </center>-->
+<!--                                        </td>-->
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.journal_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.balance_amount"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.amount_total"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="6" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.direct_total()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                        </table>
+
+                        <!--                                        <table style="width:100%">-->
+
+                        <!--                         <t t-set="i" t-value="1"/>-->
+                        <!--                        <tr>-->
+                        <!--                            <td colspan="12" style="text-align:center;color:blue;font-size:20px"><center><b><u>Estimate Difference Amount(Payment)</u></b></center></td>-->
+
+                        <!--                        </tr>-->
+                        <!--                        <tr>-->
+                        <!--                             <td>Estimator : <b><span style="color:blue;" t-field="o.estimator"/> </b></td>-->
+                        <!--                        </tr>-->
+                        <!--                         <tr style="background-color:#86827f;">-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Company Name</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Estimator</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Estimate Ref</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>DATE</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Estimate Amount</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Real</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Paid</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Get</b></center></td>-->
+
+                        <!--                       </tr>-->
+                        <!--                        <t t-foreach="o.estimate_hist()" t-as="l">-->
+
+
+                        <!--                                <tr>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;background-color:#e0b6d1;"><center><span t-field="l.company_id" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.estimator" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.estimate" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.date" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.estimate_amount" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.balance" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.paid" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;background-color:#d6c28a;"><center><span t-field="l.get_balance" /></center></td>-->
+                        <!--                                </tr>-->
+
+                        <!--                            <t t-set="i" t-value="i+1"/>-->
+
+                        <!--                        </t>-->
+                        <!--                    </table>-->
+
+
+                        <!--                    <table style="width:100%">-->
+
+                        <!--                         <t t-set="i" t-value="1"/>-->
+                        <!--                        <tr>-->
+                        <!--                            <td colspan="12" style="text-align:center;color:blue;font-size:20px"><center><b><u>Payments</u></b></center></td>-->
+
+                        <!--                        </tr>-->
+
+                        <!--                         <tr style="background-color:#86827f;">-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>Company</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payment Date</b></center></td>-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>REF</b></center></td>-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>Estimator</b></center></td>-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>Journal</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payment Type</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Amount</b></center></td>-->
+
+                        <!--                       </tr>-->
+                        <!--                        <t t-foreach="o.payment_list_com()" t-as="company">-->
+                        <!--                                                           <tr>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;background-color:#e0b6d1;"><center><t t-esc="company.name" /></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+
+                        <!--                       </tr>-->
+
+
+                        <!--                        <t t-foreach="o.payment_list(company)" t-as="l">-->
+                        <!--                                <tr>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payment_date" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.name" /></center></td>-->
+                        <!--                                    <td colspan="1" style="border:1px solid black;"><center><span t-field="l.partner_id"/></center></td>-->
+                        <!--                                    <td colspan="1" style="border:1px solid black;"><center><span t-field="l.journal_id" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payment_method_id" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;background-color:#d6c28a;"><center><span t-field="l.amount" /></center></td>-->
+                        <!--                                </tr>-->
+
+                        <!--                            <t t-set="i" t-value="i+1"/>-->
+
+                        <!--                        </t>-->
+                        <!--                        </t>-->
+                        <!--                    </table>-->
+
+
+                        <!--                    <table style="width:100%">-->
+
+                        <!--                         <t t-set="i" t-value="1"/>-->
+                        <!--                        <tr>-->
+                        <!--                            <td colspan="12" style="text-align:center;color:blue;font-size:20px"><center><b><u>Reserved Pending</u></b></center></td>-->
+
+                        <!--                        </tr>-->
+                        <!--                         <tr style="background-color:#86827f;">-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Company Name</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Estimator</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Reference</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Sub Partner</b></center></td>-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>PAY/Date</b></center></td>-->
+                        <!--&lt;!&ndash;                             <td colspan="1" style="border:1px solid black;"><center><b>PAY/REF</b></center></td>&ndash;&gt;-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>Invoice</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>INV/Date</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Amount</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Balance</b></center></td>-->
+
+                        <!--                       </tr>-->
+                        <!--                        <t t-foreach="o.payment_reserved_company()" t-as="company">-->
+                        <!--                                                                                       <tr>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;background-color:#e0b6d1;"><center><t t-esc="company.name" /></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"></td>-->
+
+                        <!--                       </tr>-->
+
+                        <!--                        <t t-foreach="o.payment_reserved(company)" t-as="l">-->
+                        <!--                                <tr>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.est_partner_id" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.name" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.partner_id" /></center></td>-->
+                        <!--                                    <td colspan="1" style="border:1px solid black;"><center><span t-field="l.to_date" /></center></td>-->
+                        <!--&lt;!&ndash;                                    <td colspan="1" style="border:1px solid black;"><center><span t-field="l.acc_pay" /></center></td>&ndash;&gt;-->
+                        <!--                                    <td colspan="1" style="border:1px solid black;"><center><span t-field="l.invoice_id" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.date" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.amount" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;background-color:#d6c28a;"><center><span t-field="l.balance" /></center></td>-->
+                        <!--                                </tr>-->
+
+                        <!--                            <t t-set="i" t-value="i+1"/>-->
+
+                        <!--                        </t>-->
+                        <!--                        </t>-->
+                        <!--                    </table>-->
+                        <!--                    <table style="width:100%">-->
+
+                        <!--                         <t t-set="i" t-value="1"/>-->
+                        <!--                        <tr>-->
+                        <!--                            <td colspan="12" style="text-align:center;color:blue;font-size:20px"><center><b>&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;<u>Summarized Information</u></b></center></td>-->
+
+                        <!--                        </tr>-->
+                        <!--                         <tr style="background-color:#86827f;">-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Company Name</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>No of <br/>Estimate</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Total<br/>EST/Amount</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>EST<br/>DIFF/Amount</b></center></td>-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>EST<br/>DIFF/Paid</b></center></td>-->
+                        <!--                             <td colspan="1" style="border:1px solid black;"><center><b>Bal<br/>EST/Diff</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>No.of<br/> B2C/INV</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Total(B2C)<br/>Inv/Amt</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>B2C Paid</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Bal<br/>(b2c bal)</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>No.of<br/> B2B/INV</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Total(B2B)<br/>INV/AMT</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>B2B/Paid</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Bal<br/>(B2B bal)</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Total Amount</b></center></td>-->
+                        <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Total Balance</b></center></td>-->
+
+                        <!--                       </tr>-->
+
+                        <!--                        <t t-foreach="o.payment_conclusion_com()" t-as="l">-->
+                        <!--                            <tr>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;background-color:#e0b6d1;"><center><t t-esc="l.name"/></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.est_count(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.total_est_amount(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.est_diff_amount(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.est_diff_paid(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.est_diff_bal(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2c_inv_count(l)" /></center></td>-->
+                        <!--                                <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2c_inv_amount(l)"/></center></td>-->
+
+                        <!--                                <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2c_inv_paid(l)" /></center></td>-->
+                        <!--                                <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2c_inv_bal(l)" /></center></td>-->
+
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2b_inv_count(l)"/></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2b_inv_amount(l)"/></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2b_inv_paid(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.b2b_inv_bal(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;"><center><t t-esc="o.tota_amount(l)" /></center></td>-->
+                        <!--                            <td colspan="1" style="border:1px solid black;background-color:#d6c28a;"><center><t t-esc="o.tota_bal_amount(l)" /></center></td>-->
+
+                        <!--                                </tr>-->
+                        <!--                        </t>-->
+
+                        <!--&lt;!&ndash;                                                        <tr>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+                        <!--&lt;!&ndash;                            <td colspan="1" style="border:1px solid black;"><center></center></td>&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;                                </tr>&ndash;&gt;-->
+
+
+                        <!--&lt;!&ndash;                            <t t-set="i" t-value="i+1"/>&ndash;&gt;-->
+
+                        <!--&lt;!&ndash;                        </t>&ndash;&gt;-->
+                        <!--                    </table>-->
+
+
+
+
+
+                        <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Executive Cheque Collections</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+<!--                            <tr>-->
+<!--                                &lt;!&ndash;                            <td>Sales Executive</td><td colspan="5"><span style="color:blue;" t-field="o.estimator"/></td>&ndash;&gt;-->
+<!--                                <td style="color:#ca0c37;">Date:</td>-->
+<!--                                <td>-->
+<!--                                    <span t-field="o.start_date"/>-->
+<!--                                </td>-->
+<!--                                &lt;!&ndash;                            <td style="color:#ca0c37;">End Date:</td><td><span t-field="o.end_date"/>)</td>&ndash;&gt;-->
+<!--                            </tr>-->
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cashier Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Sales Executive</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque No</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Debit Account</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance Amount</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Amount Total</b>
+                                    </center>
+                                </td>
+                                <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payments</b></center></td>-->
+
+                            </tr>
+
+                            <t t-foreach="o.cash_check_executive()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+<!--                                            <span t-field="k.cashier_id"/>-->
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>  <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+                                            <span t-field="k.user_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>   <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+<!--                                <t t-foreach="k.partner_invoices" t-as="l">-->
+                                <t t-foreach="k.today_lines" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.partner_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.check_no"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+
+                                            <center>
+                                                <t t-if="l.check_date">
+                                                <span t-field="l.check_date"/></t>
+                                                <t t-if="l.check_manual_date"><span t-field="l.check_date"/>
+
+                                                </t>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.debited_account"/>
+                                            </center>
+                                        </td>     <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.balance_amount"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.amount_total"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="8" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.check_total()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                        </table>
+
+                        <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Purchase Payments</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cashier Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Responsible</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Payment Journal</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance Amount</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Amount Total</b>
+                                    </center>
+                                </td>
+                                <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payments</b></center></td>-->
+
+                            </tr>
+
+                            <t t-foreach="o.cash_purchase()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+                                            <span t-field="k.cashier_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+                                            <span t-field="k.user_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+                                <t t-foreach="k.partner_invoices" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.partner_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.journal_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.balance_amount"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.amount_total"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="6" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.purchase_total()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                            <t t-foreach="o.cash_cheque_purchase()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+<!--                                            <span t-field="k.cashier_id"/>-->
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+                                            <span t-field="k.user_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+<!--                                <t t-foreach="k.partner_invoices" t-as="l">-->
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="k.accountant"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="k.cleared_date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="k.journal_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+<!--                                                <span t-field="l.balance_amount"/>-->
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="k.amount_total"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+<!--                                </t>-->
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="6" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.purchase_total()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                        </table>
+                        <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Expenses Payments</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cashier Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Responsible</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Vehicle Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                       <b>Vehicle Company</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Expense Company</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance Amount</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Paid Amount</b>
+                                    </center>
+                                </td>
+                                <!--                           <td colspan="1" style="border:1px solid black;"><center><b>Payments</b></center></td>-->
+
+                            </tr>
+
+                            <t t-foreach="o.cash_expense()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+                                            <span t-field="k.cashier_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+                                            <span t-field="k.user_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+                                <t t-foreach="k.partner_invoices" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.partner_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.vehicle_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.v_company"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.ex_company"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.balance_amount"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.amount_total"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+<!--                             <tr>-->
+<!--                                    <td colspan="8" style="border:1px solid black;">-->
+<!--                                        <center></center>-->
+<!--                                    </td>-->
+<!--                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">-->
+<!--                                        <center>-->
+<!--                                            <t t-esc="o.expense_total()"/>-->
+<!--                                        </center>-->
+<!--                                    </td>-->
+
+<!--                                </tr>-->
+                            <t t-foreach="o.cash_company_expense()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center>
+<!--                                            <span t-field="k.cashier_id"/>-->
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                        <center>
+<!--                                            <span t-field="k.user_id"/>-->
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;"></td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <!--                            <td colspan="1" style="border:1px solid black;"><center></center></td>-->
+                                </tr>
+
+                                <t t-foreach="k.freight_lines" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;background-color:#62efec;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;background-color:#70e852;">
+                                            <center></center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.reason"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="k.creates_date"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+<!--                                                <span t-field="l.vehicle_id"/>-->
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="k.company_id"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+<!--                                                <span t-field="l.ex_company"/>-->
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+<!--                                                <span t-field="l.balance_amount"/>-->
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <span t-field="l.amount"/>
+                                            </center>
+                                        </td>
+                                        <!--                            <td colspan="1" style="border:1px solid black;"><center><span t-field="l.payments" /></center></td>-->
+
+
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="8" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.expense_total()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                        </table>
+                                                                        <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Cash Withdraw</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Name</b>
+                                    </center>
+                                </td>
+<!--                                <td colspan="1" style="border:1px solid black;">-->
+<!--                                    <center>-->
+<!--                                        <b>Responsible</b>-->
+<!--                                    </center>-->
+<!--                                </td>-->
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Type Of Withdraw</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Reason</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Journal</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Deposit Account</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Amount</b>
+                                    </center>
+                                </td>
+
+                            </tr>
+
+                            <t t-foreach="o.cash_withdraw_all()" t-as="k">
+
+
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="k.name"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center><span t-field="k.partner_id"/></center>
+                                    </td>
+<!--                                    <td colspan="1" style="border:1px solid black;">-->
+<!--                                        <center><span t-field="k.user_id"/></center>-->
+<!--                                    </td>-->
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center><span t-field="k.payment_date"/></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                         <center><span t-field="k.type"/></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                         <center><span t-field="k.reference"/></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center><span t-field="k.journal_id"/></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center><span t-field="k.account_id"/></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center><span t-field="k.amount"/></center>
+                                    </td>
+                                </tr>
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                             <tr>
+                                    <td colspan="7" style="border:1px solid black;">
+                                        <center></center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;background-color:yellow;">
+                                        <center>
+                                            <t t-esc="o.totall_cash_withdraw()"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+                        </table>
+
+                                                <table style="width:100%">
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td colspan="12" style="text-align:center;color:blue;font-size:20px">
+                                    <center>
+                                        <b>
+                                            <u>Bank Payments</u>
+                                        </b>
+                                    </center>
+                                </td>
+
+                            </tr>
+                            <tr style="background-color:#b5a9b2;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Bank Name</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Balance</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Today Deposit</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Today Withdraw</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Total Balance</b>
+                                    </center>
+                                </td>
+                            </tr>
+
+
+                                <t t-foreach="o.bank_names()" t-as="l">
+                                    <tr>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center><t t-esc="l.name"/> </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center><t t-esc="'%.2f' % (o.bank_balance(l))"/> </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <t t-esc="'%.2f' % (o.today_balance(l))"/>
+                                            </center>
+                                        </td>
+                                        <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                             <t t-esc="'%.2f' % (o.today_withdraw(l))"/>
+                                            </center>
+                                        </td>  <td colspan="1" style="border:1px solid black;">
+                                            <center>
+                                                <t t-esc="'%.2f' % (o.total_bal(l))"/>
+                                            </center>
+                                        </td>
+                                    </tr>
+
+
+                                </t>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+
+                        </table>
+
+
+
+<!--                                            <div class="row">-->
+<!--                        <div class="col-xs-6"/>-->
+<!--                        <div class="col-sm-6">-->
+<!--                            <table style="width:50%;align:right;" >-->
+<!--                                <tr >-->
+<!--                           <th colspan="1" style="border:1px solid black;"><center><b>Total Collection</b></center></th>-->
+<!--                           <th colspan="1" style="border:1px solid black;"><center><b>Total Paid</b></center></th>-->
+<!--                           <th colspan="1" style="border:1px solid black;"><center><b>Profit</b></center></th>-->
+
+<!--                       </tr>-->
+<!--                                <tr>-->
+<!--                                    <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_collection()"/> </b></center></th>-->
+<!--                           <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_payment()"/></b></center></th>-->
+<!--                           <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_profit()"/></b></center></th>-->
+
+
+<!--                                </tr>-->
+
+
+<!--                    </table>-->
+
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                    </div>-->
+
+
+
+<!--                    </div>-->
+
+<br/>
+                                <div class="clearfix">
+                <div id="total" class="row" name="total">
+                    <div t-attf-class="#{'col-sm-7 col-md-5'} ml-auto">
+                        <table class="table table-sm">
+                            <tr class="border-black o_total">
+                           <th colspan="1" style="border:1px solid black;"><center><b>Total Collected Cash</b></center></th>
+                           <th colspan="1" style="border:1px solid black;"><center><b>Total Collect as Bank</b></center></th>
+                           <th colspan="1" style="border:1px solid black;"><center><b>Total Withdraw</b></center></th>
+                           <th colspan="1" style="border:1px solid black;"><center><b>Total Paid</b></center></th>
+                           <th colspan="1" style="border:1px solid black;"><center><b>Cash InHand</b></center></th>
+
+                       </tr>
+                               <tr>
+                                    <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_collection()"/> </b></center></th>
+<!--                                    <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_collection_bank()"/> </b></center></th>-->
+                                    <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.check_total()"/> </b></center></th>
+                                    <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_cash_withdraw()"/> </b></center></th>
+                           <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_payment()"/></b></center></th>
+                           <th colspan="1" style="border:1px solid black;"><center><b><t t-esc="o.totall_m_profit()"/></b></center></th>
+
+
+                                </tr>
+                        </table>
+                    </div>
+                </div>
+                                </div>
+            </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

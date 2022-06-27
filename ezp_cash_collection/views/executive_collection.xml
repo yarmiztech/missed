@@ -1,0 +1,268 @@
+<odoo>
+
+    <record id="kanban_view_executive_collection" model="ir.ui.view">
+        <field name="name">executive.collection.kanban</field>
+        <field name="model">executive.collection</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <!--                            <div class="o_kanban_record_top">-->
+                                <!--                                <div class="o_kanban_record_headings" style="color:red;">-->
+                                <!--                                    <strong class="o_kanban_record_title">-->
+                                <!--                                        <b>-->
+                                <!--                                        <field name="name"/></b>-->
+                                <!--                                        <strong><span style="color:green;font-size:15px;"><i class="fa fa-clock-o" role="img" aria-label="Date" title="Date" /> <field name="c_date"/> </span></strong><br/>-->
+                                <!--                                    </strong>-->
+                                <!--                                </div>-->
+                                <!--                            </div>-->
+                                <!--                            <span t-if="record.partner_id.raw_value" class="o_kanban_record_subtitle">-->
+                                <!--                                <b>Customer :</b> <field name="partner_id"/></span>-->
+
+                                <b>Ref :</b>
+                                <field name="name" string="Reference"/>
+                                <br/>
+                                <b>User:</b>
+                                <field name="user_id"/>
+                                <br/>
+                                <b>Payment Type:</b>
+                                <field name="payment_type"/>
+                                <br/>
+                                <b>Date:</b>
+                                <field name="payment_date"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+
+    <record id="exec_collection_tree" model="ir.ui.view">
+        <field name="name">executive.collection.tree</field>
+        <field name="model">executive.collection</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference"/>
+                <field name="user_id"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="payment_date"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="exec_collection_form" model="ir.ui.view">
+        <field name="name">executive.collection.form</field>
+        <field name="model">executive.collection</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection">
+                <header>
+                    <button name="action_exe_confirm" type="object"
+                            string="Collected" attrs="{'invisible': [('collected', '!=', False)]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <button name="action_confirm"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_cancel"/>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Confirm"-->
+                    <!--                            class="oe_highlight" id="approve_con"/>-->
+                    <button name="action_statement"
+                            type="object" groups="ezp_cash_collection.group_cash_user"
+                            string="PRINT STATEMENT"
+                            class="oe_highlight" id="approve_stmt"/>
+                    <button name="action_statement_cashier"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="PRINT STATEMENT CASHIER"
+                            class="oe_highlight" id="approve_stmt1"/>
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <field name="payment_type"/>
+                        <field name="user_id" attrs="{'required':[('state','=','draft')]}"/>
+                        <field name="cashier_id" groups="ezp_cash_collection.group_cash_manager1"/>
+                        <field name="payment_method_id"/>
+                        <field name="partner_type"/>
+                        <field name="collected" invisible="1"/>
+                        <field name="payment_date"/>
+                        <field name="sum_amount"/>
+                        <field name="another_area"/>
+                        <field name="journal_id"/>
+                        <!--                        <field name="journal_id"/>-->
+
+                    </group>
+                    <notebook>
+                        <page name="exec coll" string="Executive Collection">
+                            <field name="partner_invoices" colspan="4" mode="tree,kanban" context="{'default_journal_id':journal_id}"
+                                   widget="section_and_note_one2many">
+                                <tree string="Room Line" editable="bottom">
+                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                    <field name="date"/>
+                                    <field name="check_boolean" invisible="1"/>
+                                    <field name="check_type" invisible="1"
+                                           attrs="{'required':[('check_boolean','=',True)], 'readonly':[('check_boolean','=',False)]}"/>
+                                    <!--                                    <field name="journal_id" attrs="{'required':[('check_boolean','=',False)], 'readonly':[('check_boolean','=',True)]}"/>                                    <field name="journal_id"/>-->
+                                    <field name="journal_id"
+                                           attrs="{'required':[('check_boolean','=',False)], 'readonly':[('check_boolean','=',True)]}"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total"/>
+                                    <field name="payments" widget="many2many_tags" readonly="1" invisible="1"/>
+                                </tree>
+
+                                <kanban class="o_kanban_mobile">
+                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                    <field name="date"/>
+                                    <field name="check_type"/>
+                                    <field name="amount_total"/>
+                                    <field name="balance_amount"/>
+
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                Estimator:
+                                                                <t t-esc="record.partner_id.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <strong>
+
+                                                            <span class="float-right text-right">
+                                                                Date:
+                                                                <t t-esc="record.date.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+
+                                                        <span>
+                                                            Bal Amount:
+                                                            <t t-esc="record.balance_amount.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+
+                                                        <span>
+                                                            Paid Amount:
+                                                            <t t-esc="record.amount_total.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!--                                                </t>-->
+                                                <!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+                                                <!--                                                    <div class="row">-->
+                                                <!--                                                        <div class="col-12">-->
+                                                <!--                                                            <span>-->
+                                                <!--                                                                <t t-esc="record.name.value"/>-->
+                                                <!--                                                            </span>-->
+                                                <!--                                                        </div>-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+
+                            </field>
+
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_executive_collection" model="ir.actions.act_window">
+        <field name="name">Cash Collection</field>
+        <field name="res_model">executive.collection</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+    </record>
+<!--    <menuitem name="Cash Collection" id="menu_exec_collection"-->
+<!--              action="action_executive_collection" sequence="2"-->
+<!--              groups="group_cash_user,group_cash_manager1,group_cash_owner"-->
+<!--              parent="menu_cash_collection1"/>-->
+ <menuitem name="Cash Collection" id="menu_exec_collection"
+              action="action_executive_collection" sequence="2"
+              groups="group_cash_user,group_cash_manager1,group_cash_owner"
+              parent="ezp_estimate.menu_se"/>
+
+
+
+      <record id="ir_config_est_from" model="ir.ui.view">
+            <field name="name">collection.reminder.config.view.form</field>
+            <field name="model">collection.reminder.config</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Partners">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"/>
+                        </button>
+                    </div>
+                    <group>
+                    <group>
+                        <field name="sales_person" string="User"/>
+                    </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="ir_config_est_tree" model="ir.ui.view">
+            <field name="model">collection.reminder.config</field>
+            <field name="arch" type="xml">
+                <tree string="Scheduled Actions" decoration-muted="(not active)">
+                    <field name="sales_person" string="User"/>
+                     <field name="active"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="ir_config_estimate_act" model="ir.actions.act_window">
+            <field name="name">Scheduled Reminder Actions</field>
+            <field name="res_model">collection.reminder.config</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,form</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="ir_config_est_tree"/>
+        </record>
+        <menuitem id="menu_estimate_config_ir" action="ir_config_estimate_act" parent="ezp_estimate.est_config" groups="ezp_cash_collection.group_cash_user"/>
+        <menuitem id="menu_estimate_config_ir" action="ir_config_estimate_act" parent="ezp_estimate.menu_estimate_main" groups="ezp_cash_collection.group_cash_user" />
+
+
+</odoo>

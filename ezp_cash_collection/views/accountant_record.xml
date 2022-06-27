@@ -1,0 +1,496 @@
+<odoo>
+
+    <record id="sale_estimates_view_inh" model="ir.ui.view">
+        <field name="name">sale.estimate.form</field>
+        <field name="model">sale.estimate</field>
+        <field name="inherit_id" ref="ezp_estimate.sale_estimates_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='direct_sale']" position="after">
+                <field name="type" widget="radio"/>
+            </xpath>
+        </field>
+    </record>
+
+     <record id="opening_balance_customers_forms_inh" model="ir.ui.view">
+        <field name="name">opening.balance.customers.form</field>
+        <field name="model">opening.balance.customers</field>
+    <field name="inherit_id" ref="opening_balance_customers.opening_balance_customers_forms"/>
+        <field name="arch" type="xml">
+                 <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="area"/>
+                <field name="address"/>
+                <field name="mobile"/>
+                <field name="vat"/>
+                <field name="sales_person"/>
+            </xpath>
+        </field>
+     </record>
+
+
+
+
+    <record id="res_partner_view_est_inh" model="ir.ui.view">
+        <field name="name">res.partner.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="ezp_estimate.res_partner_view_est"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='area']" position="replace">
+<!--                <field name="area"-->
+<!--                       attrs="{'invisible': [('supplier', '=', True)],'required': [('estimator', '=', True)]}"/>-->
+            <field name="area"
+                       attrs="{'required': [('estimator', '=', True)]}"/>
+
+            </xpath>
+            <!--            <xpath expr="//field[@name='sub_customers']" position="replace">-->
+            <!--                <field name="sub_customers" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//field[@name='site']" position="replace">-->
+            <!--                <field name="site" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//field[@name='b2b_company_name']" position="replace">-->
+            <!--                <field name="b2b_company_name" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--                <xpath expr="//field[@name='restriction']" position="replace">-->
+            <!--                <field name="restriction" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--                <xpath expr="//field[@name='estimator']" position="replace">-->
+            <!--                <field name="estimator" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--                <xpath expr="//field[@name='b_to_b']" position="replace">-->
+            <!--                <field name="b_to_b" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--                <xpath expr="//field[@name='b_to_c']" position="replace">-->
+            <!--                <field name="b_to_c" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+            <!--            <xpath expr="//field[@name='is_subc']" position="replace">-->
+            <!--                <field name="is_subc" attrs="{'invisible': [('estimator', '!=', True)]}"/>-->
+            <!--            </xpath>-->
+
+        </field>
+
+    </record>
+
+
+    <record id="invoice_supplier_cash" model="ir.ui.view">
+        <field name="name">invoice.supplier.cancel.form.inherit</field>
+        <field name="model">account.move</field>
+<!--        <field name="inherit_id" ref="account.invoice_supplier_form"/>-->
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="invoiced_number"/>
+                <field name="invoiced_date"/>
+                <field name="purchase_date"/>
+                <field name="vehicle_no"/>
+
+            </xpath>
+            <xpath expr="//field[@name='amount_tax']" position="after">
+                <field name="grand_total"/>
+                <field name="amount_tcs"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    <record id="res_company_tcs" model="ir.ui.view">-->
+    <!--        <field name="name">res.company.form.inherit.account</field>-->
+    <!--        <field name="model">res.company</field>-->
+    <!--        <field name="inherit_id" ref="base.view_company_form"/>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <xpath expr="//field[@name='company_registry']" position="after">-->
+    <!--                <field name="tcs" string="TCS"/>-->
+    <!--            </xpath>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <menuitem name="Sales" groups="ezp_cash_collection.group_data_user,group_cash_manager1,group_cash_user,group_cash_owner,account.group_account_manager"
+              id="ezp_estimate.menu_estimate_main" sequence="1"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Sale" groups="account.group_account_manager,group_cash_owner"
+              id="menu_so" sequence="2"
+              parent="ezp_estimate.menu_estimate"
+    />
+
+    <record id="m_action_quotations_with_onboarding" model="ir.actions.act_window">
+        <field name="name">Quotations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+        <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+        <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+        <field name="context">{'search_default_my_quotation': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new quotation, the first step of a new sale!
+            </p>
+            <p>
+                Once the quotation is confirmed by the customer, it becomes a sales order.
+                <br/>
+                You will be able to create an invoice and collect the payment.
+            </p>
+        </field>
+    </record>
+    <menuitem id="m_menu_sale_quotations"
+              action="m_action_quotations_with_onboarding"
+              parent="menu_so"
+              sequence="1" groups="sales_team.group_sale_salesman,group_data_user,group_cash_owner"/>
+
+    <menuitem name="Collection" groups="group_cash_user,group_cash_owner,account.group_account_manager"
+              id="ezp_estimate.menu_se" sequence="3"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Purchase"
+              id="ezp_estimate.menu_pe" sequence="4"
+              groups="group_cash_purchase,group_cash_owner,ezp_cash_collection.group_data_user,account.group_account_manager"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Expenses" groups="group_cash_expenses,group_cash_owner"
+              id="ezp_estimate.menu_exp" sequence="5"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Receipts" groups="group_cash_manager1,group_cash_owner"
+              id="ezp_estimate.menu_cashier" sequence="6"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Owner"
+              id="owner_menus" sequence="7" groups="group_cash_owner"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Payments" groups="account.group_account_manager,group_cash_owner"
+              id="ezp_estimate.menu_acc" sequence="7"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Cheque" groups="ezp_cash_collection.group_data_user,ezp_cash_collection.group_cash_manager1,group_cash_owner"
+              id="ezp_estimate.menu_chk" sequence="8"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Reporting" groups="group_cash_owner"
+              id="ezp_estimate.menu_estimate_report" sequence="9"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Configuration" groups="group_cash_owner"
+              id="ezp_estimate.est_config" sequence="15"
+              parent="ezp_estimate.menu_estimate"
+    />
+
+    <menuitem name="Sales" groups="ezp_cash_collection.group_data_user,group_cash_owner"
+              id="ezp_estimate.menu_estimate_new" sequence="0"
+              parent="ezp_estimate.menu_estimate_main"
+              action="ezp_estimate.action_estimate"
+    />
+    <menuitem action="ezp_estimate.actions_complete_analysis" id="ezp_estimate.complete_menu_open,group_cash_owner"
+              parent="ezp_estimate.menu_estimate_analysis" sequence="3"/>
+    <menuitem name="Balance Report"
+              id="ezp_estimate.menu_balance_rep" sequence="4"
+              parent="ezp_estimate.menu_estimate_report"
+    />
+<!--    <menuitem id="ezp_cheque.menu_action_checks" parent="ezp_estimate.menu_chk"-->
+<!--              sequence="1" name="Cheque"/>-->
+
+    <menuitem action="ezp_estimate.actions_complete_bal_analysis" id="ezp_estimate.complete_ba_repo"
+              parent="ezp_estimate.menu_balance_rep" sequence="1"/>
+    <!--    <menuitem name="Estimate Analysis"-->
+    <!--              id="menu_estimate_analysis" sequence="3"-->
+    <!--              parent="ezp_estimate.menu_estimate"-->
+    <!--    />  -->
+    <menuitem name="Estimate Analysis" groups="account.group_account_manager,ezp_cash_collection.group_cash_manager1,group_cash_manager1,group_cash_owner"
+              id="ezp_estimate.menu_estimate_analysis" sequence="10"
+              parent="ezp_estimate.menu_estimate_main"
+    />
+    <menuitem name="Estimate Analysis" groups="account.group_account_manager,ezp_cash_collection.group_cash_manager1,group_cash_purchase,group_cash_expenses,group_cash_manager1,group_cash_owner"
+              id="ezp_estimate.menu_estimate_analysis1" sequence="1"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_estimate_analysis"/>
+    <menuitem action="ezp_estimate.action_account_payments_payables" id="menu_action_account_payments_payable1"
+              parent="ezp_estimate.menu_estimate_analysis" sequence="2"/>
+
+
+
+        <record id="action_payment_custom1" model="ir.actions.act_window">
+            <field name="name">Payments</field>
+            <field name="res_model">account.payment</field>
+<!--            <field name="view_type">form</field>-->
+            <field name="view_mode">tree,kanban,form,graph</field>
+            <field name="context">{'default_payment_type': 'inbound', 'default_partner_type': 'customer', 'search_default_inbound_filter': 1}</field>
+            <field name="domain">[]</field>
+            <field name="view_id" ref="account.view_account_payment_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                  Register a payment
+                </p><p>
+                  Payments are used to register liquidity movements. You can process those payments by your own means or by using installed facilities.
+                </p>
+            </field>
+        </record>
+
+
+    <menuitem action="action_payment_custom1" id="menu_action_payment_n1"
+                  parent="ezp_estimate.menu_cashier" sequence="2"/>
+
+    <menuitem name="EST Reserved Pending"
+              id="menu_estimat_bal" sequence="3"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_ab_analysis"/>
+    <menuitem name="Balance New"
+              id="ezp_estimate.menu_estimat_bals" sequence="4"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_estimate_balance1"/>
+
+    <menuitem name="Balance PAID"
+              id="ezp_estimate.menu_estimat_paid" sequence="5"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_estimate_paid"/>
+
+    <menuitem name="Configuration" groups="ezp_cash_collection.group_data_user,group_cash_owner,ezp_cash_collection.group_cash_manager1"
+              id="ezp_estimate.est_config" sequence="10"
+              parent="ezp_estimate.menu_estimate"
+    />
+    <menuitem name="Dippo"
+              id="ezp_estimate.menu_estimate_dip"
+              parent="ezp_estimate.est_config"
+              action="ezp_estimate.action_estimate_dippo"
+    />
+
+    <record id="m_stock_picking_action_picking_type" model="ir.actions.act_window">
+        <field name="name">Delivery Validation</field>
+        <field name="res_model">stock.picking</field>
+        <field name="type">ir.actions.act_window</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,kanban,form,calendar</field>
+        <field name="domain">[('state','!=','done'),('picking_type','=','Delivery Orders')]</field>
+        <field name="context">{
+            'contact_display': 'partner_address',
+            }
+        </field>
+        <field name="search_view_id" ref="stock.view_picking_internal_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define a new transfer
+            </p>
+        </field>
+    </record>
+    <menuitem name="Delivery Validation"
+              id="menu_estimate_validate"
+              parent="menu_so"
+              action="m_stock_picking_action_picking_type"
+    />
+    <menuitem action="fleet.fleet_vehicle_action" parent="ezp_estimate.est_config" id="ezp_estimate.fleet_vehicle_menu"
+              groups="fleet.fleet_group_user"/>
+
+    <menuitem name="Estimate Expenses"
+              id="ezp_estimate.menu_estimate_expenses" sequence="4"
+              parent="ezp_estimate.menu_exp"
+    />
+
+
+    <menuitem name="Expenses"
+              id="ezp_estimate.menu_eexpense" sequence="1"
+              parent="ezp_estimate.menu_estimate_expenses"
+              action="ezp_estimate.actions_estimate_expense"/>
+    <menuitem name="Estimate Expense History"
+              id="ezp_estimate.menu_est_exp_rep" sequence="8"
+              parent="ezp_estimate.menu_estimate_expenses"
+              action="ezp_estimate.actions_exp_bal_pay"/>
+    <menuitem name="Expense Diff History"
+              id="ezp_estimate.menu_est_exsp_rep" sequence="9"
+              parent="ezp_estimate.menu_estimate_expenses"
+              action="ezp_estimate.actions_bal_diff"/>
+    <menuitem name="Balance EST/HST"
+              id="ezp_estimate.menu_esti_est_hst" sequence="6"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_estimate_est_hst"/>
+
+    <menuitem name="Balance INV/HST"
+              id="ezp_estimate.menu_esti_inv_hst" sequence="7"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_estimate_inv_hst"/>
+    <menuitem name="Balance INV/B2B/HST"
+              id="ezp_estimate.menu_esti_invb_hst" sequence="8"
+              parent="ezp_estimate.menu_estimate_analysis"
+              action="ezp_estimate.actions_estimate_invb_hst"/>
+    <menuitem name="Estimate Orders"
+              id="ezp_estimate.menu_estimate_orders"
+              parent="ezp_estimate.menu_estimate_main" groups="ezp_cash_collection.group_cash_user,group_cash_owner"
+              action="ezp_estimate.action_orders" sequence="1"
+    />
+
+    <menuitem name="Quotation Request"
+              id="ezp_estimate.menu_sale_req"
+              parent="sale.sale_order_menu"
+              action="ezp_estimate.action_sales_requests" sequence="1"
+    />
+
+    <menuitem name="Purchase Discounts"
+              id="multi_purchase_discount.menu_purchase_discounts"
+              parent="ezp_estimate.menu_pe"
+              groups="ezp_cash_collection.group_cash_purchase,group_cash_owner"
+              sequence="2"
+    />
+    <!--     <menuitem action="purchase.purchase_rfq" id="purchase.menu_purchase_rfq" groups="ezp_cash_collection.group_cash_purchase,ezp_cash_collection.group_data_user,account.group_account_manager"-->
+    <!--            parent="ezp_estimate.menu_pe"-->
+    <!--            sequence="0"/>-->
+
+
+    <record id="multi_purchase_rfq" model="ir.actions.act_window">
+        <field name="name">Requests for Quotation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">tree,kanban,form,pivot,graph,calendar,activity</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="purchase.view_purchase_order_filter"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a request for quotation
+            </p>
+            <p>
+                The quotation contains the history of the discussion
+                you had with your vendor.
+            </p>
+        </field>
+    </record>
+    <menuitem action="multi_purchase_rfq" id="multi_menu_purchase_rfqs"
+              groups="ezp_cash_collection.group_cash_purchase,account.group_account_manager,group_cash_owner"
+              parent="ezp_estimate.menu_pe"
+              sequence="1"/>
+
+    <record id="hr_expense_actions_my_unsubmitteds" model="ir.actions.act_window">
+        <field name="name">My Expenses</field>
+        <field name="res_model">hr.expense</field>
+        <field name="view_mode">tree,kanban,form,graph,pivot,activity</field>
+        <field name="search_view_id" ref="hr_expense.hr_expense_view_search"/>
+        <field name="domain">[]</field>
+        <field name="context">{'search_default_my_expenses': 1, 'search_default_no_report': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new expense
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="smenu_hr_expense_my_expenses_to_submit" sequence="0" parent="ezp_estimate.menu_exp"
+              action="hr_expense_actions_my_unsubmitteds"
+              groups="ezp_cash_collection.group_data_user,ezp_cash_collection.group_cash_expenses,group_cash_owner"/>
+
+<!--    <record id="account_rec_pay" model="ir.ui.view">-->
+<!--        <field name="name">account.payment.form</field>-->
+<!--        <field name="model">account.payment</field>-->
+<!--        <field name="inherit_id" ref="ezp_estimate.view_account_payment_form_cu"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <xpath expr="//field[@name='payment_type']" position="before">-->
+<!--                <field name="amount_given" readonly="1"/>-->
+<!--                <field name="amount_bal" readonly="1"/>-->
+<!--            </xpath>-->
+
+<!--        </field>-->
+<!--    </record>-->
+
+    <record id="accountant_record_tree" model="ir.ui.view">
+        <field name="name">accountant.record.tree</field>
+        <field name="model">accountant.record</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference"/>
+                <field name="source"/>
+                <field name="user_id"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="payment_date"/>
+                <field name="paid_amount"/>
+                <field name="bal_amount"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="accountant_record_form" model="ir.ui.view">
+        <field name="name">accountant.record.form</field>
+        <field name="model">accountant.record</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection">
+                <header>
+                    <button name="action_payment_confirm"
+                            type="object"
+                            string="Payments"
+                            class="oe_highlight" id="approve_con"/>
+                    <!--                    <button name="action_cancel"-->
+                    <!--                            type="object"-->
+                    <!--                            string="Cancel"  attrs="{'invisible': [('state', '!=', 'draft')]}"-->
+                    <!--                            class="oe_highlight" id="approve_cancel"/>-->
+                    <!--                    <button name="action_statement"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_user"-->
+                    <!--                            string="PRINT STATEMENT"-->
+                    <!--                            class="oe_highlight" id="approve_stmt"/>-->
+                    <!--                    <button name="action_statement_cashier"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="PRINT STATEMENT CASHIER"-->
+                    <!--                            class="oe_highlight" id="approve_stmt1"/>-->
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <field name="payment_type"/>
+                        <field name="source"/>
+                        <field name="user_id"/>
+                        <field name="cashier_id"/>
+                        <field name="payment_method_id"/>
+                        <field name="partner_type"/>
+                        <field name="payment_date"/>
+                        <field name="paid_amount"/>
+                        <field name="bal_amount"/>
+
+                    </group>
+                    <notebook>
+                        <page name="exec coll" string="Executive Collection">
+                            <field name="partner_invoices" colspan="4" readonly="1">
+                                <tree string="Room Line" editable="bottom">
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="journal_id"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total"/>
+                                    <field name="bal_total"/>
+                                    <field name="payments" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_accountant_record" model="ir.actions.act_window">
+        <field name="name">Collection</field>
+        <field name="res_model">accountant.record</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <!--    <menuitem name="Collection" id="menu_accountant_record"-->
+    <!--              action="action_accountant_record" sequence="10"-->
+    <!--              parent="menu_cash_collection1" groups="account.group_account_manager,account.group_account_invoice"/>-->
+    <menuitem name="Collection" id="menu_accountant_record"
+              action="action_accountant_record" sequence="10"
+              parent="ezp_estimate.menu_acc" groups="account.group_account_manager,account.group_account_invoice,group_cash_owner"/>
+
+    <menuitem name="Reports" id="menu_chq_main"
+              sequence="12" groups="group_data_user,group_cash_user,account.group_account_manager,group_cash_owner"
+              parent="ezp_estimate.menu_estimate"/>
+    <menuitem name="Reports" id="menu_complete_repo"
+               sequence="12"
+              parent="ezp_cash_collection.menu_chq_main"/>
+
+
+
+
+</odoo>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<!--Adding a salary rule for loan-->
+	<data noupdate="0">
+        <record id="freight_disc_seq" model="ir.sequence">
+            <field name="name">Freight Discount</field>
+            <field name="code">freight.disc</field>
+            <field name="prefix">Frei/Dis/Charge</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="purchase_order_custom_seq" model="ir.sequence">
+            <field name="name">Purchase Req</field>
+            <field name="code">purchase.order.custom</field>
+            <field name="prefix">REQ/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="today_visiting_remainder_seq" model="ir.sequence">
+            <field name="name">Today Visiting</field>
+            <field name="code">today.visiting.remainder</field>
+            <field name="prefix">VISIT/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_post_collection" model="ir.sequence">
+            <field name="name">post Collection</field>
+            <field name="code">post.cheques</field>
+            <field name="prefix">POST/CHQ/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_bounce_collection" model="ir.sequence">
+            <field name="name">Bounce Collection</field>
+            <field name="code">bounce.cheques</field>
+            <field name="prefix">Bounce/CHQ/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_cash_collection" model="ir.sequence">
+            <field name="name">Cash Collection</field>
+            <field name="code">cash.collection</field>
+            <field name="prefix">CASH/COLL/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_internal_amount_transfer" model="ir.sequence">
+            <field name="name">Internal Amount</field>
+            <field name="code">internal.amount.transfer</field>
+            <field name="prefix">Bank/Trans/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_expenses_disc" model="ir.sequence">
+            <field name="name">Expenses </field>
+            <field name="code">expenses.disc</field>
+            <field name="prefix">EXP/</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+      <record id="seq_executive_collection" model="ir.sequence">
+                <field name="name">Executive Collection</field>
+                <field name="code">executive.collection</field>
+                <field name="prefix">EXEC/COLL/</field>
+                <field name="padding">3</field>
+                <field name="company_id" eval="False"/>
+            </record>
+        <record id="seq_date_collection" model="ir.sequence">
+                <field name="name">Filter Collection</field>
+                <field name="code">datewise.cheques</field>
+                <field name="prefix">CHQ/Date/</field>
+                <field name="padding">3</field>
+                <field name="company_id" eval="False"/>
+            </record>
+        <record id="seq_exp_cashier" model="ir.sequence">
+                <field name="name">Filter Collection</field>
+                <field name="code">exp.cashier</field>
+                <field name="prefix">EXP/Cash/</field>
+                <field name="padding">3</field>
+                <field name="company_id" eval="False"/>
+            </record>
+      <record id="seq_purchase_payments" model="ir.sequence">
+                <field name="name">Purchase Payments</field>
+                <field name="code">purchase.payments</field>
+                <field name="prefix">PO/PAY/</field>
+                <field name="padding">3</field>
+                <field name="company_id" eval="False"/>
+            </record>
+        <record id="seq_ex_cheque" model="ir.sequence">
+                <field name="name">Exec Cheque</field>
+                <field name="code">executive.cheque.collection</field>
+                <field name="prefix">EX/CHQ/</field>
+                <field name="padding">3</field>
+                <field name="company_id" eval="False"/>
+            </record>
+      <record id="seq_expenses_payments" model="ir.sequence">
+                    <field name="name">Expenses Payments</field>
+                    <field name="code">expense.payments</field>
+                    <field name="prefix">EXP/PAY/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+      <record id="seq_d_sale" model="ir.sequence">
+                    <field name="name">Direct Sale</field>
+                    <field name="code">data.entry</field>
+                    <field name="prefix">Sale/Coll/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+
+        <record id="neft_rtgs_collection_seq" model="ir.sequence">
+                    <field name="name">Neft Sale</field>
+                    <field name="code">neft.rtgs.collection</field>
+<!--                    <field name="prefix">Transfer</field>-->
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+      <record id="seq_today_cheques" model="ir.sequence">
+                    <field name="name">Today Cheque</field>
+                    <field name="code">today.cheques</field>
+                    <field name="prefix">CHQ/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+      <record id="seq_amount_withdraw" model="ir.sequence">
+                    <field name="name">Amount Withdraw</field>
+                    <field name="code">amount.withdraw</field>
+                    <field name="prefix">WTH/DRW/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+  <record id="seq_accountant_record" model="ir.sequence">
+                    <field name="name">Collection</field>
+                    <field name="code">accountant.record</field>
+                    <field name="prefix">ACC/COll/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+ <record id="seq_pdc" model="ir.sequence">
+                    <field name="name">PDC Cheque</field>
+                    <field name="code">pdc.cheque.collection</field>
+                    <field name="prefix">PDC/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+<record id="seq_today_cheques_sub" model="ir.sequence">
+                    <field name="name">Submission Cheque</field>
+                    <field name="code">today.cheques.sub</field>
+                    <field name="prefix">CHQ/SUB/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+        <record id="seq_cheque_submission" model="ir.sequence">
+                    <field name="name">Submission Complete</field>
+                    <field name="code">cheque.submission</field>
+                    <field name="prefix">CHQ/SUB/Rec</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+   <record id="seq_exe_area_assign" model="ir.sequence">
+                    <field name="name">Executive Area Assigns</field>
+                    <field name="code">executive.areas.assign</field>
+                    <field name="prefix">Area/Assign/</field>
+                    <field name="padding">3</field>
+                    <field name="company_id" eval="False"/>
+                </record>
+     <record id="seq_owner_areawise" model="ir.sequence">
+                        <field name="name">Owner Areawise Report</field>
+                        <field name="code">owner.areawise</field>
+                        <field name="prefix">Area/</field>
+                        <field name="padding">3</field>
+                        <field name="company_id" eval="False"/>
+                    </record>
+  <record id="seq_cashier_direct" model="ir.sequence">
+                        <field name="name">Cashier Direct Collection</field>
+                        <field name="code">cashier.direct.collection</field>
+                        <field name="prefix">Csh/Direct/</field>
+                        <field name="padding">3</field>
+                        <field name="company_id" eval="False"/>
+                    </record>
+
+	</data>
+</odoo>

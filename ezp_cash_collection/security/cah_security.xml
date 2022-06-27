@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="0">
+
+    <record id="partner_ledger_customer_rule" model="ir.rule">
+        <field name="name">Partner Ledger Custom</field>
+        <field name="model_id" ref="model_partner_ledger_customer"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id','=',[user.company_id.id])]</field>
+<!--        <field name="domain_force">[('company_id','child_of',[user.company_id.id])]</field>-->
+    </record>
+    <record id="estimate_orders_rule" model="ir.rule">
+        <field name="name">Estimate Orders Rule</field>
+        <field name="model_id" ref="ezp_estimate.model_estimate_orders"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+    <record id="sale_target_lines_rule" model="ir.rule">
+        <field name="name">sales target lines Rule</field>
+        <field name="model_id" ref="model_sale_target_lines"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('sales_person', '=', user.partner_id.id)]</field>
+    </record>
+    <record id="area_offers_rule" model="ir.rule">
+        <field name="name">Offer Rules</field>
+        <field name="model_id" ref="model_area_offers"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('sales_person', '=', user.partner_id.id)]</field>
+    </record>
+    <record id="supplier_ledger_customer_rule" model="ir.rule">
+        <field name="name">Supplier Ledger Custom</field>
+        <field name="model_id" ref="model_supplier_ledger_customer"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('company_id','=',[user.company_id.id])]</field>
+<!--        <field name="domain_force">[('company_id','child_of',[user.company_id.id])]</field>-->
+    </record>
+    <record id="executive_collection_rule" model="ir.rule">
+        <field name="name">Cash COllection Custom</field>
+        <field name="model_id" ref="model_executive_collection"/>
+        <field name="global" eval="True"/>
+<!--        <field name="domain_force">[('user_id', '=', user.id)]</field>-->
+<!--        <field name="domain_force">[('user_id', '=', user.id)]</field>-->
+<!--        <field name="domain_force">[('company_id','child_of',[user.company_id.id])]</field>-->
+    </record>
+    <record id="executive_areas_assign_rule" model="ir.rule">
+        <field name="name">Area Assign Custom</field>
+        <field name="model_id" ref="model_executive_areas_assign"/>
+        <field name="global" eval="True"/>
+        <field name="domain_force">[('sales_person', '=', user.partner_id.id)]</field>
+<!--        <field name="domain_force">[('company_id','child_of',[user.company_id.id])]</field>-->
+    </record>
+ <record id="executive_areas_assign_rule" model="ir.rule">
+        <field name="name">Area Assign</field>
+        <field name="model_id" ref="model_executive_areas_assign"/>
+        <field name="global" eval="True"/>
+<!--        <field name="domain_force">[('company_id','=',[user.company_id.id])]</field>-->
+        <field name="domain_force">[('sales_person', '=', user.partner_id.id)]</field>
+    </record>
+<record id="executive_cheque_coll_rule" model="ir.rule">
+        <field name="name">Cheque Collection Area Assign</field>
+        <field name="model_id" ref="model_executive_cheque_collection"/>
+        <field name="global" eval="True"/>
+<!--        <field name="domain_force">[('company_id','=',[user.company_id.id])]</field>-->
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+       <record model="ir.module.category" id="module_category_cash_collection">
+            <field name="name">Cash Collection</field>
+            <field name="description">Helps you manage your cash collection-related processes supplier bills, etc...</field>
+            <field name="sequence">8</field>
+        </record>
+    <record id="group_cash_user" model="res.groups">
+        <field name="name">Sales Executives</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>
+    </record>
+    <record id="group_cash_purchase" model="res.groups">
+        <field name="name">Purchase User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>
+    </record>
+    <record id="group_data_user" model="res.groups">
+        <field name="name">Data Entry</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>
+    </record>
+    <record id="group_cash_expenses" model="res.groups">
+        <field name="name">Expenses User</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>
+    </record>
+<!--     <record id="group_en_accountant" model="res.groups">-->
+<!--            <field name="name">Enz Accountant</field>-->
+<!--            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>-->
+<!--            <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>-->
+<!--        </record>-->
+
+    <record id="group_cash_manager1" model="res.groups">
+        <field name="name">Cashier1</field>
+        <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>
+<!--        <field name="implied_ids" eval="[(4, ref('group_cash_user'))]"/>-->
+                <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+    <record id="group_cash_owner" model="res.groups">
+        <field name="name">Owner</field>
+        <field name="category_id" ref="ezp_cash_collection.module_category_cash_collection"/>
+<!--        <field name="implied_ids" eval="[(4, ref('group_cash_user'))]"/>-->
+                <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+
+<!--        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>-->
+    </record>
+
+</data>
+</odoo>

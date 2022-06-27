@@ -1,0 +1,536 @@
+<odoo>
+
+
+    <record id="today_cheques_sub_tree" model="ir.ui.view">
+        <field name="name">today.cheques.sub.tree</field>
+        <field name="model">today.cheques.sub</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'draft'" decoration-info="state == 'validate'">
+                <field name="name" string="Reference"/>
+                <field name="user_id"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+                <field name="total_amount"/>
+                <field name="paid_amount"/>
+                <field name="Bal_amount"/>
+            </tree>
+        </field>
+    </record>
+                <record id="kanban_view_today_cheques" model="ir.ui.view">
+        <field name="name">today.cheques.kanban</field>
+        <field name="model">today.cheques</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban" >
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <b>Ref:</b>
+                                 <field name="name"/><br/>
+                                <b>Partner:</b>
+                                <field name="partner_id"/><br/>
+                                <b>Date:</b>
+                                <field name="payment_date"/><br/>
+                               <b>Bal</b>
+                                <field name="Bal_amount"/><br/>
+                                 <b>Status</b>
+                                <field name="state"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+    <record id="today_cheques_tree" model="ir.ui.view">
+        <field name="name">today.cheques.tree</field>
+        <field name="model">today.cheques</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'draft'" decoration-info="state == 'validate'">
+                <field name="name" string="Reference"/>
+                <field name="user_id" invisible="1"/>
+                <field name="sales_person"/>
+                <field name="partner_id"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+                <field name="total_amount"/>
+                <field name="paid_amount"/>
+                <field name="Bal_amount"/>
+            </tree>
+        </field>
+    </record>
+    <record id="post_cheques_tree" model="ir.ui.view">
+        <field name="name">post.cheques.tree</field>
+        <field name="model">post.cheques</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'draft'" decoration-info="state == 'validate'">
+                <field name="name" string="Reference"/>
+                <field name="user_id"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+                <field name="total_amount"/>
+                <field name="paid_amount"/>
+                <field name="Bal_amount"/>
+            </tree>
+        </field>
+    </record>
+    <record id="bounce_cheques_tree" model="ir.ui.view">
+        <field name="name">bounce.cheques.tree</field>
+        <field name="model">bounce.cheques</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'draft'" decoration-info="state == 'validate'">
+                <field name="name" string="Reference"/>
+                <field name="user_id"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+                <field name="total_amount"/>
+                <field name="paid_amount"/>
+                <field name="Bal_amount"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="today_cheques_form" model="ir.ui.view">
+        <field name="name">today.cheques.form</field>
+        <field name="model">today.cheques</field>
+        <field name="arch" type="xml">
+            <form string="Today Cheque">
+                <header>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm" attrs="{'invisible': ['|',('check_count','in',['clear','bounce']),('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con1"/>
+<!--                    <button name="action_submit"-->
+<!--                            type="object"-->
+<!--                            string="Submit"-->
+<!--                            class="oe_highlight"/>-->
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object"-->
+                    <!--                            string="Approval"-->
+                    <!--                            class="oe_highlight" id="approve_con1"/>-->
+                    <button name="action_cheque_statement"
+                            type="object"
+                            string="PRINT STATEMENT"
+                            class="oe_highlight" id="approve_stmt"/>
+                    <!--                    <button name="action_cancel"-->
+                    <!--                                            type="object"-->
+                    <!--                                            string="Approved" attrs="{'visible': [('state', '!=', 'draft')]}"-->
+                    <!--                                            class="oe_highlight" id="approve_con1"/>-->
+
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                     <div class="oe_button_box" name="button_box">
+<!--&lt;!&ndash;                        <button name="action_view_invoice"&ndash;&gt;-->
+<!--                        <button name="action_view_journal"-->
+<!--                            type="object"-->
+<!--                            class="oe_stat_button"-->
+<!--                            icon="fa-pencil-square-o"-->
+<!--                            >-->
+<!--                            Journals-->
+<!--                        </button>-->
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id" invisible="1"/>
+                            <field name="payment_date" invisible="1"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                            <field name="sales_person"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="check_count" widget="radio" />
+<!--                            <field name="total_amount"/>-->
+<!--                            <field name="paid_amount"/>-->
+<!--                            <field name="Bal_amount"/>-->
+
+                        </group>
+                        <!--                        <group>-->
+                        <!--                           -->
+                        <!--                        </group>-->
+
+
+                    </group>
+                    <notebook>
+                        <page name="Today Cheque Lines" string="Today Cheque Lines">
+                            <field name="today_lines" colspan="4"  mode="tree,kanban"  widget="section_and_note_one2many">
+                                <tree string="T Line" editable="bottom">
+                                    <field name="check_line" invisible="1"/>
+                                    <field name="advance_check_line" invisible="1"/>
+                                    <field name="ref_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="bank_name"/>
+                                    <!--                                    <field name="account_type"/>-->
+                                    <field name="holder_name"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="apply" attrs="{'column_invisible': [('parent.check_count','!=','pending')]}"/>
+                                    <field name="account_id" invisible="1"/>
+                                    <field name="debited_account" />
+                                    <field name="status" />
+                                    <field name="submitted_date" attrs="{'column_invisible': [('parent.check_count','=','submit')]}"/>
+                                    <!--                                    <field name="reason" />-->
+                                    <field name="clearing_date" attrs="{'invisible': [('status', '=', 'bounce')]}"/>
+<!--                                    <field name="bounce_date"/>-->
+
+<!--                                    <field name="post_date" attrs="{'invisible': [('status', '!=', 'postpone')],'required': [('status', '=', 'postpone')]}"/>-->
+                                    <!--                                    <field name="new_date" attrs="{'invisible': [('status', '!=', 'bounce')]}"/>-->
+                                    <field name="state" invisible="1"/>
+                                </tree>
+                                 <kanban class="o_kanban_mobile">
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="bank_name"/>
+                                    <field name="holder_name"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="apply" attrs="{'column_invisible': [('parent.check_count','!=','pending')]}"/>
+                                    <field name="debited_account" />
+                                    <field name="status" />
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+<!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <strong>
+                                                                <span>
+                                                                    Estimator:
+                                                                    <t t-esc="record.partner_id.value"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <strong>
+
+                                                                <span class="float-right text-right">
+                                                                    Cheque No:
+                                                                    <t t-esc="record.check_no.value" />
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+
+                                                            <span>
+                                                                    Cheque Type:
+                                                                <t t-esc="record.check_type.value"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+
+                                                            <span>
+                                                                Debited Acc/-:
+                                                                <t t-esc="record.debited_account.value"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+<!--                                                </t>-->
+<!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+<!--                                                    <div class="row">-->
+<!--                                                        <div class="col-12">-->
+<!--                                                            <span>-->
+<!--                                                                <t t-esc="record.name.value"/>-->
+<!--                                                            </span>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="today_cheques_subm_form" model="ir.ui.view">
+        <field name="name">today.cheques.sub.form</field>
+        <field name="model">today.cheques.sub</field>
+        <field name="arch" type="xml">
+            <form string="Today Cheques">
+                <header>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Approval" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con1"/>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object"-->
+                    <!--                            string="Approval"-->
+                    <!--                            class="oe_highlight" id="approve_con1"/>-->
+                    <!--                          <button name="action_cheque_statement"-->
+                    <!--                            type="object"-->
+                    <!--                            string="PRINT STATEMENT"-->
+                    <!--                            class="oe_highlight" id="approve_stmt"/>-->
+                    <!--                    <button name="action_cancel"-->
+                    <!--                                            type="object"-->
+                    <!--                                            string="Approved" attrs="{'visible': [('state', '!=', 'draft')]}"-->
+                    <!--                                            class="oe_highlight" id="approve_con1"/>-->
+
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <!--                        <group>-->
+                        <field name="user_id" string="Submitted By" invisible="1"/>
+                        <field name="payment_date" invisible="1"/>
+                        <!--                        </group>-->
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                        <group>
+                            <field name="sales_person"/>
+                            <field name="partner_id"/>
+                            <!--                            <field name="total_amount"/>-->
+                            <!--                            <field name="paid_amount"/>-->
+
+                            <!--                            <field name="Bal_amount"/>-->
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page name="Sub Cheque Lines" string="Sub Cheque Lines">
+                            <field name="today_lines" colspan="4">
+                                <tree string="T Line" editable="bottom">
+                                    <field name="check_line" invisible="1"/>
+                                    <field name="advance_check_line" invisible="1"/>
+                                    <field name="ref_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="bank_name"/>
+                                    <!--                                    <field name="account_type"/>-->
+                                    <field name="holder_name"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="apply"/>
+                                    <field name="debited_account"/>
+                                    <!--                                     <field name="status"/>-->
+                                    <!--                                    <field name="reason"/>-->
+                                    <!--                                    <field name="post_date" attrs="{'invisible': [('status', '!=', 'postpone')],'required': [('status', '=', 'postpone')]}"/>-->
+                                    <!--                                    <field name="new_date" attrs="{'invisible': [('status', '!=', 'bounce')]}"/>-->
+                                    <field name="state"/>
+                                    <field name="select"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="post_cheques_form" model="ir.ui.view">
+        <field name="name">post.cheques.form</field>
+        <field name="model">post.cheques</field>
+        <field name="arch" type="xml">
+            <form string="PDC Cheque">
+                <header>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object"-->
+                    <!--                            string="Approval" attrs="{'invisible': [('state', '!=', 'draft')]}"-->
+                    <!--                            class="oe_highlight" id="approve_con1"/>-->
+                    <!--                          <button name="action_cheque_statement"-->
+                    <!--                            type="object"-->
+                    <!--                            string="PRINT STATEMENT"-->
+                    <!--                            class="oe_highlight" id="approve_stmt"/>-->
+                    <!--                    <button name="action_cancel"-->
+                    <!--                                            type="object"-->
+                    <!--                                            string="Approved" attrs="{'visible': [('state', '!=', 'draft')]}"-->
+                    <!--                                            class="oe_highlight" id="approve_con1"/>-->
+
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="payment_date"/>
+                        </group>
+                        <group>
+                            <field name="total_amount"/>
+                            <field name="paid_amount"/>
+
+                            <field name="Bal_amount"/>
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page name="PDC Cheque Lines" string="PDC Cheque Lines">
+                            <field name="today_lines" colspan="4">
+                                <tree string="post Line" editable="bottom">
+                                    <field name="check_line" invisible="1"/>
+                                    <field name="collected_cheque" invisible="1"/>
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="bank_name"/>
+                                    <!--                                    <field name="account_type"/>-->
+                                    <field name="holder_name"/>
+                                    <field name="balance_amount"/>
+                                    <field name="debited_account"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="status"/>
+                                    <field name="post_date"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="bounce_cheques_form" model="ir.ui.view">
+        <field name="name">bounce.cheques.form</field>
+        <field name="model">bounce.cheques</field>
+        <field name="arch" type="xml">
+            <form string="PDC Cheque">
+                <header>
+                    <button name="action_confirm"
+                            type="object"
+                            string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con1"/>
+                    <!--                    <button name="action_cheque_statement"-->
+                    <!--                            type="object"-->
+                    <!--                            string="PRINT STATEMENT"-->
+                    <!--                            class="oe_highlight" id="approve_stmt"/>-->
+
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="payment_date"/>
+                        </group>
+                        <group>
+                            <field name="total_amount"/>
+                            <field name="paid_amount"/>
+
+                            <field name="Bal_amount"/>
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page name="Bounce Cheque Lines" string="PDC Cheque Lines">
+                            <field name="today_lines" colspan="4">
+                                <tree string="Bounce Line" editable="bottom">
+                                    <field name="check_line" invisible="1"/>
+                                    <field name="collected_cheque" invisible="1"/>
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="bank_name"/>
+                                    <!--                                    <field name="account_type"/>-->
+                                    <field name="holder_name"/>
+                                    <field name="balance_amount"/>
+                                    <field name="debited_account"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="status"/>
+                                    <field name="reason"/>
+                                    <field name="bounce_date"/>
+                                    <field name="new_date"/>
+                                    <field name="state" invisible="1"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_bounce_cheques" model="ir.actions.act_window">
+        <field name="name">Bounce Cheque</field>
+        <field name="res_model">bounce.cheques</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <record id="action_today_cheques" model="ir.actions.act_window">
+        <field name="name">PDC Cheque Submitted</field>
+        <field name="res_model">today.cheques</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <record id="action_today_cheques_sub" model="ir.actions.act_window">
+        <field name="name">Today Cheque Submission</field>
+        <field name="res_model">today.cheques.sub</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <record id="action_post_cheques" model="ir.actions.act_window">
+        <field name="name">Postponed Cheques</field>
+        <field name="res_model">post.cheques</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+<!--    <menuitem name="Today Cheque Submission" id="menu_today-cheque_sub"-->
+<!--              action="action_today_cheques_sub" sequence="2" groups="group_cash_manager1,group_cash_user"-->
+<!--              parent="menu_chq_collection1" />-->
+    <menuitem name="PDC Cheque Submitted" id="menu_today-cheque"
+              action="action_today_cheques" sequence="3" groups="group_cash_manager1,group_cash_owner"
+              parent="menu_chq_collection1"/>
+    <menuitem name="Postponed Cheque" id="menu_post-cheque"
+              action="action_post_cheques" sequence="8" groups="group_cash_manager1,group_cash_owner"
+              parent="menu_chq_main"/>
+    <menuitem name="Bounced Cheques" id="menu_bounce_cheque"
+              action="action_bounce_cheques" sequence="5" groups="group_cash_owner"
+              parent="menu_chq_main"/>
+
+
+
+</odoo>

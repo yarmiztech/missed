@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+
+    <template id="repo_test_div">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ezp_cash_collection.daily_report_pos_layout">
+                    <div class="page">
+                        <h2 style="font-style:oblique;font-weight:bold;">
+                            <center>
+                                <u>
+                                    <span t-field="o.user_id"/>
+                                    Collection
+                                </u>
+                            </center>
+                        </h2>
+                        <div class="row">
+                            <div class="col-sm-5"/>
+                            <div class="col-sm-2"
+                                 style="border:1px solid black;width: 150px;text-align:center;height: 50px;border-radius: 15px;background-color: white;">
+                                  OWNER NAME <br/>اسم المالك
+                            </div>
+                            <div class="col-sm-5"/>
+                        </div>
+
+                        <div class="row" style="border:1px solid black;height:100px;border-radius: 15px;margin-top: -25px;">
+
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

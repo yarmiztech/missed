@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="check_repo_search" model="ir.ui.view">
+        <field name="name">check.repo.search</field>
+        <field name="model">check.repo</field>
+        <field name="arch" type="xml">
+            <search string="Cheques">
+                <field name="date"/>
+                <field name="partner_id"/>
+                <field name="amount_total"/>
+                <field name="check_no"/>
+                <field name="bank_name"/>
+                <field name="debited_account"/>
+                <separator/>
+                <filter string='Partner' name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                <filter string='Bank Name' name="bank_name" domain="[]" context="{'group_by': 'bank_name'}"/>
+                <filter string='Debit Ac/-' name="debited_account" domain="[]" context="{'group_by': 'debited_account'}"/>
+                <filter string='Cheque NO' name="check_no" domain="[]" context="{'group_by': 'check_no'}"/>
+                <filter string='Cheque Date' name="date" domain="[]" context="{'group_by': 'date'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="check_repo_tree" model="ir.ui.view">
+        <field name="name">check.repo.tree</field>
+        <field name="model">check.repo</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="partner_id"/>
+                <field name="date"/>
+                <field name="check_no"/>
+                <field name="bank_name"/>
+                <field name="debited_account"/>
+                <field name="amount_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actions_check_repo" model="ir.actions.act_window">
+        <field name="name">Cheque Flow</field>
+        <field name="res_model">check.repo</field>
+        <field name="view_mode">tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem name="Cheque New"
+              id="menu_check_repo" sequence="8"
+              parent="ezp_cash_collection.menu_chq_main"
+              action="actions_check_repo"/>
+
+
+        <record id="sale_report_custom_form" model="ir.ui.view">
+        <field name="name">sale.report.custom.form</field>
+        <field name="model">sale.report.custom</field>
+        <field name="arch" type="xml">
+            <form string="Today Collection">
+                <header>
+                    <!--                    <field name="state" select="2" widget="statusbar"-->
+                    <!--                           statusbar_visible="draft,validate,cancelled"/>-->
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+<!--                            <field name="date_from"/>-->
+<!--                            <field name="date_to"/>-->
+<!--                            <field name="name"/>-->
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+<!--                            <field name="month" attrs="{'invisible': [('style', '!=', 'monthly')]}"/>-->
+                            <field name="area" attrs="{'invisible': ['|',('style', '=','monthly'),('report_type', '!=', 'area')]}"/>
+                            <field name="partner_id" attrs="{'invisible': [('report_type', '!=', 'partner')]}"/>
+                            <field name="vehicle_id" attrs="{'invisible': ['|',('style', '=','monthly'),('report_type', '!=', 'vehicle')]}"/>
+<!--                            <field name="product_type" widget="radio"  options="{'horizontal': true}" />-->
+                            <field name="product_group" attrs="{'invisible': [('report_type', '!=', 'grouped')]}"/>
+                            <field name="product_id" attrs="{'invisible': [('report_type', '!=', 'product')]}"/>
+                            <field name="product_groups" attrs="{'invisible': ['|',('style', '=','monthly'),('report_type', 'in', ('grouped','product'))]}"/>
+<!--                            <field name="product_groups" attrs="{'invisible': [('product_type', '!=', 'grouped')]}"/>-->
+                            <field name="product_categ" attrs="{'invisible': ['|',('style', '=','monthly'),('report_type', 'in', ('grouped','product'))]}"/>
+                            <field name="product_ids" attrs="{'invisible': ['|',('style', '=','monthly'),('report_type', 'in', ('grouped','product'))]}"/>
+<!--                            <field name="product_ids" attrs="{'invisible': [('product_type', '!=', 'product')]}"/>-->
+<!--                            <field name="product_categ" attrs="{'invisible': [('product_type', '!=', 'categ')]}"/>-->
+                        </group>
+                        <group>
+
+                            <field name="report_type" widget="radio" options="{'color_field': 'color'}"/>
+                            <field name="style"/>
+                        </group>
+
+
+                    </group>
+                    <notebook>
+                        <page name="Report_Lines" string="Report Lines" attrs="{'invisible': [('style', '=','monthly')]}"
+                        >
+                            <field name="report_lines" colspan="4">
+                                <tree string="Report Line" editable="bottom">
+                                    <field name="date"/>
+                                    <field name="invoice_id"/>
+                                    <field name="product_id"/>
+                                    <field name="partner_id"/>
+                                    <field name="company_id"/>
+                                    <field name="paid_date" invisible="1"/>
+                                    <field name="address"/>
+                                    <field name="executive_area" invisible="1"/>
+                                    <field name="area"/>
+                                    <field name="vehicle_id" invisible="1"/>
+                                    <field name="in_vehicle_id" string="Vehicle"/>
+                                    <field name="transport_receipt"/>
+                                    <field name="gate_pass"/>
+                                    <field name="description" invisible="1"/>
+                                    <field name="account" invisible="1"/>
+                                    <field name="price_units" sum="Price"/>
+                                    <field name="uom"/>
+                                    <field name="rate" sum="Rate"/>
+                                    <!--                                    <field name="debit"/>-->
+                                    <!--                                    <field name="credit"/>-->
+                                    <!--                                    <field name="balance"/>-->
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="room_summary" string="Monthly Report" attrs="{'invisible': [('style', '!=','monthly')]}">
+                            <field name="summary_header" colspan="4"
+                                   invisible="1"/>
+
+                            <field name="room_summary" colspan="4" invisible="0"
+                                   widget="Room_Reservation"/>
+                            <field name="summary_footer" colspan="4"
+                                   invisible="1"/>
+
+                            <!--                             <widget name="Room_Reservation"></widget> -->
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+
+
+
+    <record id="action_sale_report_custom" model="ir.actions.act_window">
+        <field name="name">Sales Report</field>
+        <field name="res_model">sale.report.custom</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+<!--    <menuitem name="Sales Report" id="menu_se"-->
+<!--              action="action_sale_report_custom" sequence="7"-->
+<!--              parent="ezp_cash_collection.menu_chq_main"/>-->
+
+    <menuitem name="Sales Report" id="menu_se" groups="group_cash_manager1,group_cash_owner,account.group_account_manager"
+              action="action_sale_report_custom" sequence="1"
+              parent="ezp_cash_collection.menu_chq_main"/>
+
+
+</odoo>

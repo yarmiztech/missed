@@ -1,0 +1,510 @@
+<odoo>
+
+    <record id="exec_collection_cheq_tree" model="ir.ui.view">
+        <field name="name">executive.cheque.collection.tree</field>
+        <field name="model">executive.cheque.collection</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-success="state == 'validate'"
+                  decoration-danger="state == 'pending'">
+                <field name="name" string="Reference"/>
+                <field name="user_id"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="pdc_cheque_collection_tree" model="ir.ui.view">
+        <field name="name">pdc.cheque.collection.tree</field>
+        <field name="model">pdc.cheque.collection</field>
+        <field name="arch" type="xml">
+            <tree decoration-info="state == 'draft'" decoration-success="state == 'validate'"
+                  decoration-danger="state == 'pending'" create="0">
+                <field name="name" string="Reference"/>
+                <field name="user_id"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="payment_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="kanban_view_executive_cheque_collection" model="ir.ui.view">
+        <field name="name">executive.cheque.collection.kanban</field>
+        <field name="model">executive.cheque.collection</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <b>User :</b>
+                                <field name="user_id"/>
+                                <br/>
+                                <b>payment_type :</b>
+                                <field name="payment_type"/>
+                                <br/>
+                                <b>Cashier :</b>
+                                <field name="cashier_id"/>
+                                <br/>
+                                <b>Date :</b>
+                                <field name="payment_date"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+
+    <record id="exec_collection_che_form" model="ir.ui.view">
+        <field name="name">executive.cheque.collection.form</field>
+        <field name="model">executive.cheque.collection</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection">
+                <header>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Confirm" attrs="{'invisible': [('state', '!=', 'deposited')]}"-->
+                    <!--                            class="oe_highlight" id="approve_con"/>   -->
+                    <button name="action_confirm"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="Debited in Bank" attrs="{'invisible': [('status_compute', '!=', True)]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <button name="action_deposit"
+                            type="object"
+                            groups="ezp_cash_collection.group_cash_user,ezp_cash_collection.group_cash_manager1"
+                            string="Collected" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_depo"/>
+                    <!--                    <button name="action_send"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Collected" attrs="{'invisible': [('state', '!=', 'draft')]}"-->
+                    <!--                            class="oe_highlight" id="approve_depo"/>-->
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_cancel"/>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Confirm"-->
+                    <!--                            class="oe_highlight" id="approve_con"/>-->
+                    <button name="action_cheque_statement"
+                            type="object"
+                            string="PRINT STATEMENT" groups="ezp_cash_collection.group_cash_user"
+                            class="oe_highlight" id="approve_stmt"/>
+                    <button name="action_cheque_statement_cashier"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="PRINT STATEMENT CASHIER"
+                            class="oe_highlight" id="approve_stmt1"/>
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,collected,deposited,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <field name="payment_type"/>
+                        <field name="user_id"
+                               attrs="{'required':[('state','=','draft')], 'readonly':[('state','!=','draft')]}"/>
+                        <field name="cashier_id" groups="ezp_cash_collection.group_cash_manager1"
+                               attrs="{'required':[('state','=','deposited')],'invisible': [('state', 'in', ['draft'])]}"
+                        />
+                        <field name="payment_method_id"/>
+                        <field name="another_area"/>
+                        <field name="partner_type"/>
+                        <field name="status_compute" invisible="1"/>
+                        <field name="payment_date"/>
+
+                    </group>
+                    <notebook>
+                        <page name="exec cheque coll" string="Executive Collection">
+                            <field name="partner_invoices" colspan="4" mode="tree,kanban" widget="section_and_note_one2many">
+                                                                <tree string="Room Line" editable="bottom">
+                                                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                                                    <field name="date" invisible="1"/>
+                                                                    <field name="check_no"/>
+                                                                    <field name="check_type"/>
+                                <!--                                    <field name="check_date"-->
+                                <!--                                           attrs="{'invisible': [('check_type', '!=', 'cash')]}"/>-->
+                                                                    <field name="check_manual_date"
+                                                                           attrs="{'invisible': [('check_type', '=', 'cash')]}"/>
+                                                                    <field name="bank_name"/>
+                                <!--                                    <field name="account_type"/>-->
+                                                                    <field name="holder_name"/>
+                                                                    <field name="balance_amount"/>
+                                                                    <field name="sub_balance_amount"/>
+                                                                    <field name="debited_account" readonly="1" />
+                                                                    <field name="amount_total" string="Cheque Amount"/>
+                                                                    <field name="status" readonly="1" invisible="1"/>
+                                                                    <field name="post_date" readonly="1" invisible="1"/>
+                                                                    <field name="reason" readonly="1" invisible="1" />
+                                                                    <field name="state" readonly="1" invisible="1"/>
+                                                                    <field name="payments" widget="many2many_tags" readonly="1" invisible="1"/>
+                                                                </tree>
+
+                                <form string="Cheque Collection">
+                                    <group>
+                                        <group>
+                                            <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                            <field name="check_no"/>
+                                            <field name="check_type"/>
+                                            <field name="check_manual_date"
+                                                   attrs="{'invisible': [('check_type', '=', 'cash')]}"/>
+                                            <field name="bank_name"/>
+                                            <field name="holder_name"/>
+                                            <field name="amount_total" string="Cheque Amount"/>
+                                        </group>
+                                    </group>
+
+                                </form>
+                                <kanban class="o_kanban_mobile">
+                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="bank_name"/>
+                                    <field name="holder_name"/>
+                                    <field name="sub_balance_amount"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                Estimator:
+                                                                <t t-esc="record.partner_id.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <strong>
+
+                                                            <span class="float-right text-right">
+                                                                Cheque No:
+                                                                <t t-esc="record.check_no.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+
+                                                        <span>
+                                                            Cheque Type:
+                                                            <t t-esc="record.check_type.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+
+                                                        <span>
+                                                            Check Amount:
+                                                            <t t-esc="record.amount_total.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!--                                                </t>-->
+                                                <!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+                                                <!--                                                    <div class="row">-->
+                                                <!--                                                        <div class="col-12">-->
+                                                <!--                                                            <span>-->
+                                                <!--                                                                <t t-esc="record.name.value"/>-->
+                                                <!--                                                            </span>-->
+                                                <!--                                                        </div>-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+                            </field>
+
+                        </page>
+                        <page name="Sub cheque coll" string="Sub Cheque Collection">
+                            <field name="sub_partner_invoices" colspan="4" mode="tree,kanban"
+                                   widget="section_and_note_one2many">
+                                <tree string="Sub  Line" editable="bottom">
+                                    <field name="partner_id"/>
+                                    <field name="sub_customer"/>
+                                    <!--                                    <field name="amount_total"/>-->
+
+                                </tree>
+                                <kanban class="o_kanban_mobile">
+                                    <field name="partner_id"/>
+                                    <field name="sub_customer"/>
+                                    <!--                                    <field name="amount_total"/>-->
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                Estimator:
+                                                                <t t-esc="record.partner_id.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                Sub Estimator:
+                                                                <t t-esc="record.sub_customer.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <!--                                                    <div class="row">-->
+                                                <!--                                                        <div class="col-12 text-muted">-->
+
+                                                <!--                                                            <span>-->
+                                                <!--                                                                Check Amount:-->
+                                                <!--                                                                <t t-esc="record.amount_total.value"/>-->
+                                                <!--                                                            </span>-->
+                                                <!--                                                        </div>-->
+                                                <!--                                                    </div>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+                            </field>
+
+                        </page>
+                        <page name="Advance cheque coll" string="Advance Cheque Collection">
+                            <field name="a_partner_invoices" colspan="4" mode="tree,kanban"
+                                   widget="section_and_note_one2many">
+                                <tree string="Advance Room Line" editable="bottom">
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="check_manual_date"
+                                           attrs="{'invisible': [('check_type', '=', 'cash')]}"/>
+                                    <field name="bank_name"/>
+                                    <field name="holder_name"/>
+                                    <field name="debited_account" readonly="1"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="status" readonly="1"/>
+                                    <!--                                    <field name="post_date" readonly="1" />-->
+                                    <!--                                    <field name="reason" readonly="1" />-->
+                                    <!--                                    <field name="state" readonly="1" />-->
+                                    <field name="payments" widget="many2many_tags" readonly="1"/>
+                                </tree>
+                                <kanban class="o_kanban_mobile">
+                                    <field name="partner_id"/>
+                                    <field name="date"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="check_manual_date"
+                                           attrs="{'invisible': [('check_type', '=', 'cash')]}"/>
+                                    <field name="bank_name"/>
+                                    <field name="holder_name"/>
+                                    <field name="debited_account" readonly="1"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                                <!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                <div class="row">
+                                                    <div class="col-8">
+                                                        <strong>
+                                                            <span>
+                                                                Estimator:
+                                                                <t t-esc="record.partner_id.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                    <div class="col-4">
+                                                        <strong>
+
+                                                            <span class="float-right text-right">
+                                                                Cheque No:
+                                                                <t t-esc="record.check_no.value"/>
+                                                            </span>
+                                                        </strong>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+
+                                                        <span>
+                                                            Cheque Type:
+                                                            <t t-esc="record.check_type.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12 text-muted">
+
+                                                        <span>
+                                                            Check Amount:
+                                                            <t t-esc="record.amount_total.value"/>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!--                                                </t>-->
+                                                <!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+                                                <!--                                                    <div class="row">-->
+                                                <!--                                                        <div class="col-12">-->
+                                                <!--                                                            <span>-->
+                                                <!--                                                                <t t-esc="record.name.value"/>-->
+                                                <!--                                                            </span>-->
+                                                <!--                                                        </div>-->
+                                                <!--                                                    </div>-->
+                                                <!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="pdc_cheque_collection_form" model="ir.ui.view">
+        <field name="name">pdc.cheque.collection.form</field>
+        <field name="model">pdc.cheque.collection</field>
+        <field name="arch" type="xml">
+            <form string="Executive Collection" create="0">
+                <header>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Confirm" attrs="{'invisible': [('state', '!=', 'deposited')]}"-->
+                    <!--                            class="oe_highlight" id="approve_con"/>   -->
+                    <button name="action_confirm"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="Confirm" attrs="{'invisible': [('status_compute', '!=', True)]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <!--                    <button name="action_deposit"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_user,ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Collected" attrs="{'invisible': [('state', '!=', 'draft')]}"-->
+                    <!--                            class="oe_highlight" id="approve_depo"/>-->
+                    <!--&lt;!&ndash;                    <button name="action_send"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            type="object" groups="ezp_cash_collection.group_cash_manager1"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            string="Collected" attrs="{'invisible': [('state', '!=', 'draft')]}"&ndash;&gt;-->
+                    <!--&lt;!&ndash;                            class="oe_highlight" id="approve_depo"/>&ndash;&gt;-->
+                    <!--                    <button name="action_cancel"-->
+                    <!--                            type="object"-->
+                    <!--                            string="Cancel" attrs="{'invisible': [('state', '!=', 'draft')]}"-->
+                    <!--                            class="oe_highlight" id="approve_cancel"/>-->
+                    <!--                    &lt;!&ndash;                    <button name="action_confirm"&ndash;&gt;-->
+                    <!--                    &lt;!&ndash;                            type="object" groups="ezp_cash_collection.group_cash_manager1"&ndash;&gt;-->
+                    <!--                    &lt;!&ndash;                            string="Confirm"&ndash;&gt;-->
+                    <!--                    &lt;!&ndash;                            class="oe_highlight" id="approve_con"/>&ndash;&gt;-->
+                    <!--                    <button name="action_cheque_statement"-->
+                    <!--                            type="object"-->
+                    <!--                            string="PRINT STATEMENT"  groups="ezp_cash_collection.group_cash_user"-->
+                    <!--                            class="oe_highlight" id="approve_stmt"/>-->
+                    <!--                    <button name="action_cheque_statement_cashier"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="PRINT STATEMENT CASHIER"-->
+                    <!--                            class="oe_highlight" id="approve_stmt1"/>-->
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,collected,deposited,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group colspan="4" col="4">
+                        <field name="payment_type"/>
+                        <field name="user_id"
+                               attrs="{'required':[('state','=','draft')], 'readonly':[('state','!=','draft')]}"/>
+                        <field name="cashier_id" groups="ezp_cash_collection.group_cash_manager1"
+                               attrs="{'required':[('state','=','deposited')],'invisible': [('state', 'in', ['draft'])]}"
+                        />
+                        <field name="payment_method_id"/>
+                        <field name="partner_type"/>
+                        <field name="status_compute" invisible="1"/>
+                        <field name="payment_date"/>
+
+                    </group>
+                    <notebook>
+                        <page name="exec cheque coll" string="Executive Collection">
+                            <field name="partner_invoices" colspan="4">
+                                <tree string="Room Line" editable="bottom">
+                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                    <field name="date" invisible="1"/>
+                                    <field name="check_no"/>
+                                    <field name="check_type"/>
+                                    <field name="check_date"
+                                           attrs="{'invisible': [('check_type', '!=', 'cash')]}"/>
+                                    <field name="check_manual_date"
+                                           attrs="{'invisible': [('check_type', '=', 'cash')]}"/>
+                                    <field name="bank_name"/>
+                                    <!--                                    <field name="account_type"/>-->
+                                    <field name="holder_name"/>
+                                    <field name="balance_amount"/>
+                                    <field name="debited_account" readonly="1"/>
+                                    <field name="amount_total" string="Cheque Amount"/>
+                                    <field name="state"/>
+                                    <field name="payments" widget="many2many_tags" readonly="1"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_executive_cheque_collection" model="ir.actions.act_window">
+        <field name="name">Cheque Collection</field>
+        <field name="res_model">executive.cheque.collection</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <record id="action_pdc_cheque_collection" model="ir.actions.act_window">
+        <field name="name">PDC Cheque Collected</field>
+        <field name="res_model">pdc.cheque.collection</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+<!--    <menuitem name="Cheque Collection" id="menu_cheq_collection"-->
+<!--              action="action_executive_cheque_collection" sequence="1" groups="group_cash_manager1,group_cash_user"-->
+<!--              parent="menu_chq_collection1"/>-->
+      <menuitem name="Cheque Collection" id="menu_cheq_collection"
+              action="action_executive_cheque_collection" sequence="1" groups="group_cash_manager1,group_cash_user"
+              parent="ezp_estimate.menu_se"/>
+
+
+<!--    <menuitem name="PDC Cheque Collected" id="menu_pdc_collection"-->
+<!--              action="action_pdc_cheque_collection" sequence="9" groups="group_cash_manager1,group_cash_user"-->
+<!--              parent="ezp_cash_collection.menu_chq_main"/>-->
+ <menuitem name="PDC Cheque Collected" id="menu_pdc_collection"
+              action="action_pdc_cheque_collection" sequence="4" groups="group_cash_manager1,group_cash_owner"
+              parent="menu_chq_collection1"/>
+
+</odoo>

@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="owner_application_search" model="ir.ui.view">
+        <field name="name">owner.application.search</field>
+        <field name="model">owner.application</field>
+        <field name="arch" type="xml">
+            <search string="Owner Application">
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="area"/>
+                <field name="product_id"/>
+                <field name="type"/>
+                <separator/>
+                <filter string='Date' name="create_date" domain="[]" context="{'group_by': 'create_date'}"/>
+                <filter string='Partner' name="partner_id" domain="[]" context="{'group_by': 'partner_id'}"/>
+                <filter string='Product' name="product_id" domain="[]" context="{'group_by': 'product_id'}"/>
+                <filter string='Area' name="area" domain="[]" context="{'group_by': 'area'}"/>
+                <filter string='type' name="state" domain="[]" context="{'group_by': 'type'}"/>
+            </search>
+        </field>
+    </record>
+
+        <record id="kanban_view_owner_application" model="ir.ui.view">
+        <field name="name">owner.application.kanban</field>
+        <field name="model">owner.application</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban" create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <b>Date :</b>
+                                <field name="create_date" options="{'color_field': 'color'}"/>
+                                <br/>
+                                <b>Estimator :</b>
+                                <field name="partner_id"/>
+                                <br/>
+                                <b>Area :</b>
+                                <field name="area"/>
+                                <br/>
+                                <b>Type :</b>
+                                <field name="type"/>
+                                <br/>
+                                <b>Product :</b>
+                                <field name="product_id"/>
+                                <b>Outstanding :</b>
+                                <field name="outstanding_amount"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+
+
+    <record id="owner_application_tree" model="ir.ui.view">
+        <field name="name">owner.application.tree</field>
+        <field name="model">owner.application</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="create_date"/>
+                <field name="sales_executive" invisible="1"/>
+                <field name="company_id"/>
+                <field name="partner_id"/>
+                <field name="area"/>
+                <field name="type"/>
+                <field name="product_id"/>
+                <field name="quantity"/>
+                <field name="outstanding_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="actions_owner_application" model="ir.actions.act_window">
+        <field name="name">Owner Application</field>
+        <field name="res_model">owner.application</field>
+        <field name="view_mode">kanban,tree</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem name="Owner Application"
+              id="menu_owner_application" sequence="1"
+              parent="owner_menus"
+              action="actions_owner_application"/>
+
+
+    <!--        <record id="owner_areawise_tree" model="ir.ui.view">-->
+    <!--        <field name="name">owner.areawise.tree</field>-->
+    <!--        <field name="model">owner.areawise</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <tree create="0">-->
+    <!--               <field name="create_date"/>-->
+    <!--&lt;!&ndash;                <field name="company_id"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;               <field name="partner_id"/>&ndash;&gt;-->
+    <!--               <field name="area"/>-->
+    <!--               <field name="type"/>-->
+    <!--&lt;!&ndash;               <field name="product_id"/>&ndash;&gt;-->
+    <!--               <field name="quantity"/>-->
+    <!--               <field name="outstanding_amount"/>-->
+    <!--            </tree>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+    <!--       <record id="actions_owner_areawise" model="ir.actions.act_window">-->
+    <!--        <field name="name">Owner Areawise</field>-->
+    <!--        <field name="res_model">owner.areawise</field>-->
+    <!--        <field name="view_mode">tree</field>-->
+    <!--        <field name="context">{}</field>-->
+    <!--        <field name="help" type="html">-->
+    <!--            <p class="oe_view_nocontent_create">-->
+    <!--                Click to create a new .-->
+    <!--            </p>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+    <!--    <menuitem name="Owner Application"-->
+    <!--              id="menu_owner_areawise" sequence="2"-->
+    <!--              parent="owner_menus"-->
+    <!--              action="actions_owner_areawise"/>-->
+    <!--    -->
+
+
+    <record id="owner_areawise_tree" model="ir.ui.view">
+        <field name="name">owner.areawise.tree</field>
+        <field name="model">owner.areawise</field>
+        <field name="arch" type="xml">
+            <tree string="AreaWise Report">
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="area"/>
+                <field name="sales_executive"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="owner_areawise_form" model="ir.ui.view">
+        <field name="name">owner.areawise.form</field>
+        <field name="model">owner.areawise</field>
+        <field name="arch" type="xml">
+            <form string="Areawise Report">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="exec" invisible="1"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                        <group>
+                            <field name="area"/>
+                            <field name="sales_executive" attrs="{'readonly': [('read_executive','=',True)]}"/>
+                            <field name="read_executive"/>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="area_lines" string="Areawise Report">
+                            <field name="area_lines" colspan="4" widget="section_and_note_one2many"
+                                mode="tree,kanban">
+                                <tree string="Area wise Report">
+                                    <field name="date"/>
+                                    <field name="company_id"/>
+<!--                                    <field name="area"/>-->
+                                    <field name="partner_id" string="Partner"/>
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="outstanding_amount"/>
+                                </tree>
+                                                           <kanban class="o_kanban_mobile">
+                                <field name="partner_id"/>
+                                <field name="outstanding_amount"/>
+                                <field name="product_id"/>
+                                <field name="quantity"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+<!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <strong>
+                                                                <span>
+                                                                    Partner:
+                                                                    <t t-esc="record.partner_id.value"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <strong>
+                                                                <span class="float-right text-right">
+                                                                    Outstanding:
+                                                                    <t t-esc="record.outstanding_amount.value" />
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            <span>
+                                                                Product:
+                                                                <t t-esc="record.product_id.value"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            <span>
+                                                                Quantity:
+                                                                <t t-esc="record.quantity.value"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+<!--                                                </t>-->
+<!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+<!--                                                    <div class="row">-->
+<!--                                                        <div class="col-12">-->
+<!--                                                            <span>-->
+<!--                                                                <t t-esc="record.name.value"/>-->
+<!--                                                            </span>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_owner_areawise" model="ir.actions.act_window">
+        <field name="name">Area Wise Report</field>
+        <field name="res_model">owner.areawise</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <menuitem name="Reports" id="menu_ow_reports" sequence="3" parent="owner_menus"/>
+
+    <menuitem name="Area Wise Report" id="menu_owner_areawises"
+              action="action_owner_areawise" sequence="10"
+              parent="menu_ow_reports"/>
+
+    <menuitem name="Targets" id="menu_target_root" sequence="2" parent="owner_menus"/>
+
+
+    <menuitem name="Owner Targets"
+              id="salesperson_target.menu_owner_tar" sequence="1"
+              parent="menu_target_root"
+              action="salesperson_target.actions_owner_purchase_target"/>
+
+
+    <menuitem name="Sales Incentive Payment"
+              id="salesperson_target.menu_inc_pay" sequence="6"
+              parent="menu_target_root"
+              action="salesperson_target.actions_sales_incentives_pay"/>
+
+    <menuitem name="Incentives History"
+              id="salesperson_target.menu_incen_h" sequence="5"
+              parent="menu_target_root"
+              action="salesperson_target.actions_sales_incentives_report"/>
+
+    <menuitem name="Sales Person Details"
+              id="salesperson_target.menu_sale_det" sequence="4"
+              parent="menu_target_root"
+              action="salesperson_target.actions_sales_person_details"/>
+    <menuitem name="Incentives Configuration"
+              id="salesperson_target.menu_sale_inc" sequence="3"
+              parent="menu_target_root"
+              action="salesperson_target.actions_sales_person_incentives"/>
+
+    <menuitem name="Sales Person Target"
+              id="salesperson_target.menu_sale_tar" sequence="8"
+              parent="menu_target_root"
+              action="salesperson_target.actions_sales_person_target"/>
+
+
+    <menuitem name="Target Achievement Report" id="salesperson_target.menu_staff_target"
+              action="salesperson_target.action_target_achievement_report" sequence="2"
+              parent="menu_ow_reports"/>
+
+    <menuitem name="Sales Executive Full Report" id="salesperson_target.menu_staff_full"
+              action="salesperson_target.action_staff_full" sequence="3"
+              parent="menu_ow_reports"/>
+
+    <record id="kanban_view_purchase_disco_repo" model="ir.ui.view">
+        <field name="name">purchase.discounts.repo.kanban</field>
+        <field name="model">purchase.discounts.repo</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban" create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <b>Ref:</b>
+                                 <field name="user_id"/><br/>
+                                <b>Supplier:</b>
+                                <field name="partner_id"/><br/>
+                                <b>Date:</b>
+                                <field name="create_date"/><br/>
+                               <b>month :</b>
+                                <field name="month"/><br/>
+                                 <b>Product :</b>
+                                <field name="product_id"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+    <record id="purchase_discounts_repo_form" model="ir.ui.view">
+        <field name="name">purchase.discounts.repo.form</field>
+        <field name="model">purchase.discounts.repo</field>
+        <field name="arch" type="xml">
+            <form string=" Report">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                           <field name="user_id"/>
+                <field name="month"/>
+                <field name="partner_id"/>
+                <field name="ref_no"/>
+                <field name="purchased_id"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="price"/>
+                <field name="cash_discount"/>
+                <field name="price_discount"/>
+                        </group>
+                        <group>
+                            <field name="lumpsum_disc" sum="Lum"/>
+                <field name="month_dsc" sum="Month"/>
+                <field name="qty_dsc" sum="Qty_dsc"/>
+                <field name="add_dsc" sum="Add_Dsc"/>
+                <field name="target_dsc" sum="Target_sum"/>
+                <field name="year_dsc" sum="Year_sum"/>
+                <field name="promo_dsc" sum="Promo_Sum"/>
+                <field name="other_dsc" sum="Other_Sum"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_dis_repos" model="ir.actions.act_window">
+        <field name="name">Purchase Discount Record</field>
+        <field name="res_model">purchase.discounts.repo</field>
+        <field name="view_mode">tree,kanban</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new .
+            </p>
+        </field>
+    </record>
+
+
+      <record id="kanban_view_purchase_discounts" model="ir.ui.view">
+        <field name="name">purchase.discounts.kanban</field>
+        <field name="model">purchase.discounts</field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+            <kanban class="o_hr_employee_kanban" create="false">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_record_has_image_fill o_hr_kanban_record">
+                            <div class="oe_kanban_details">
+                                <b>Ref:</b>
+                                 <field name="user_id"/><br/>
+                                <b>Partner:</b>
+                                <field name="partner_id"/><br/>
+                                <b>Date:</b>
+                                <field name="create_date"/><br/>
+                               <b>month :</b>
+                                <field name="month"/><br/>
+                                 <b>Lumpsum :</b>
+                                <field name="lumpsum_disc"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+
+        </field>
+    </record>
+
+
+     <record id="action_purchase_dis_owner" model="ir.actions.act_window">
+        <field name="name">Purchase Discounts</field>
+        <field name="res_model">purchase.discounts</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Estimate.
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem name="Purchase Discount Report"
+              id="men_po_repos" sequence="4"
+              parent="menu_ow_reports"
+              action="action_purchase_dis_repos"
+    />
+
+     <menuitem name="Purchase Discounts"
+              id="men_po_dis1_owner" sequence="3"
+              parent="menu_ow_reports"
+              action="action_purchase_dis_owner"
+    />
+
+
+
+    <record id="executive_full_form" model="ir.ui.view">
+        <field name="name">executive.full.report.form</field>
+        <field name="model">executive.full.report</field>
+        <field name="inherit_id" ref="salesperson_target.executive_full_form"/>
+        <field name="arch" type="xml">
+                        <xpath expr="//field[@name='company_id']" position="after">
+<!--                            <field name="type" widget="radio"/>-->
+                            <field name="sales_person" attrs="{'readonly': [('read_executive','=',True)]}"/>
+                            <field name="executive" invisible="1"/>
+                            <field name="read_executive" invisible="1"/>
+                        </xpath>
+
+            <xpath expr="//page[@name='executive_lines']" position="after">
+                <page name="collected_lines" string="Collected Report"
+                      attrs="{'invisible': [('type', '!=', 'collected')]}">
+                    <field name="collected_lines" colspan="4"  widget="section_and_note_one2many"
+                                mode="tree,kanban">
+                        <tree string="Collected Report">
+                            <field name="date"/>
+                            <field name="type"/>
+                            <field name="sales_person"/>
+                            <field name="partner_id"/>
+                            <field name="outstanding_balance"/>
+                            <field name="collected_amount"/>
+                            <field name="balance"/>
+                        </tree>
+                       <kanban class="o_kanban_mobile">
+                                <field name="sales_person"/>
+                                <field name="partner_id"/>
+                                <field name="outstanding_balance"/>
+                                <field name="collected_amount"/>
+                                <field name="balance"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+<!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <strong>
+                                                                <span>
+                                                                    Partner:
+<!--                                                                    <t t-esc="record.partner_id.value"/>-->
+                                                                    <field name="partner_id"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <strong>
+                                                                <span class="float-right text-right">
+                                                                    Outstanding:
+                                                                    <field name="outstanding_balance" />
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            <span>
+                                                                Collected:
+<!--                                                                <t t-esc="record.collected_amount.value"/>-->
+                                                                <field name="collected_amount"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            <span>
+                                                                Balance:
+<!--                                                                <t t-esc="record.balance.value"/>-->
+                                                                <field name="balance"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+<!--                                                </t>-->
+<!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+<!--                                                    <div class="row">-->
+<!--                                                        <div class="col-12">-->
+<!--                                                            <span>-->
+<!--                                                                <t t-esc="record.name.value"/>-->
+<!--                                                            </span>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+                    </field>
+                </page>
+                <page name="visited_lines" string="Visit Report" attrs="{'invisible': [('type', '!=', 'visit')]}">
+                    <field name="visited_lines" colspan="4" widget="section_and_note_one2many"
+                                mode="tree,kanban">
+                        <tree string="Visited Report">
+                            <field name="date"/>
+                            <field name="sales_person"/>
+                            <field name="partner_id"/>
+                            <field name="state"/>
+                            <field name="reason"/>
+                            <field name="next_visit_date"/>
+                        </tree>
+                         <kanban class="o_kanban_mobile">
+                                <field name="sales_person"/>
+                                <field name="partner_id"/>
+                             <field name="next_visit_date"/>
+
+<!--                                <field name="balance"/>-->
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+<!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <strong>
+                                                                <span>
+                                                                    Partner:
+                                                                    <field name="partner_id"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <strong>
+                                                                <span class="float-right text-right">
+                                                                    Next Visit:
+                                                                    <field name="next_visit_date" />
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            <span>
+                                                                Sales Person:
+                                                                <field name="sales_person"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+                                                            <span>
+                                                                State:
+                                                                <field name="state"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+<!--                                                </t>-->
+<!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+<!--                                                    <div class="row">-->
+<!--                                                        <div class="col-12">-->
+<!--                                                            <span>-->
+<!--                                                                <t t-esc="record.name.value"/>-->
+<!--                                                            </span>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>

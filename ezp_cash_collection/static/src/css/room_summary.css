@@ -1,0 +1,78 @@
+
+.table_header
+{
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	background-color:#9190c5;
+	color:white;
+}
+.footer_cu
+{
+	text-align: center;
+	vertical-align: middle;
+	background-color: #6c757d8f;
+	color:black;
+	font-size:18px;
+}
+
+.table_reserved
+{
+	background-color: #af646b;
+	color: white;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}.table_liked
+{
+	background-color: #6c757d;
+	color: white;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}.table_visited
+{
+	background-color:#06580c;
+	color: white;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}.table_quotation
+{
+	background-color:#cea017;
+	color: #343a40;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}.
+.table_reserved1
+{
+	background-color: blue;
+	color: white;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}
+.table_free
+{
+	background-color: green;
+	color: white;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}
+.table_vaccant
+{
+	background-color: #60c1a4;
+	color: white;
+	text-align: center;
+	min-width:100px;
+	vertical-align: middle;
+	cursor:pointer;
+}

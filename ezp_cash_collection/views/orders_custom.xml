@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="estimate_orders_search" model="ir.ui.view">
+        <field name="name">estimate.orders.search</field>
+        <field name="model">estimate.orders</field>
+        <field name="arch" type="xml">
+            <search string="Partner_leds">
+                <field name="c_date"/>
+                <field name="partner_id"/>
+                <separator/>
+<!--                <filter string='To Day' name="c_date" domain="[]" />-->
+<!--                     <filter name="c_date" string="Today" domain="[('c_date','=',time.strftime('%%Y-%%m-%%d'))]"/>-->
+                     <filter name="c_date" string="Today" domain="[('c_date','=',time.strftime('%%d-%%m-%%Y'))]"/>
+
+            </search>
+        </field>
+    </record>
+     <record id="ezp_estimate.action_orders" model="ir.actions.act_window">
+        <field name="name">Estimate Orders</field>
+        <field name="res_model">estimate.orders</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'search_default_c_date':time.strftime('%%d-%%m-%%Y')}</field>
+        <field name="context">{}</field>
+
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Estimate Orders.
+            </p>
+        </field>
+    </record>
+
+
+
+    <record id="purchase_order_custom_view" model="ir.ui.view">
+        <field name="name">purchase.order.custom.tree</field>
+        <field name="model">purchase.order.custom</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Reference"/>
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="status"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="purchase_custom_view" model="ir.ui.view">
+        <field name="name">purchase.order.custom.form</field>
+        <field name="model">purchase.order.custom</field>
+        <field name="arch" type="xml">
+            <form string="New Planning">
+                <header>
+                    <button name="action_oder_confirm"
+                            type="object" attrs="{'invisible': [('status', '=', 'done')]}"
+                            string="Order Confirm"
+                            class="oe_highlight" id="order"/>
+                    <field name="status" widget="statusbar" readonly="1"/>
+                </header>
+
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object"
+                                name="action_view_invoice"
+                                class="oe_stat_button"
+                                icon="fa-shopping-cart"
+                                attrs="{'invisible': [('po_count', '=', 0)]}" groups="base.group_user">
+                            <field name="po_count" widget="statinfo" string="Purchases"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id" required="1"/>
+                            <field name="purchase_ids" invisible="1"/>
+                            <field name="invoiced_number"/>
+                            <field name="invoiced_date"/>
+                            <field name="purchase_date"/>
+                            <field name="vehicle_no"/>
+
+                        </group>
+                        <group>
+                            <field name="fiscal_position_id" required="1"
+                                   options="{'no_create': True,'no_open': True}"/>
+                            <field name="create_date"/>
+                            <field name="user_id"/>
+                            <field name="company_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Req Info" id="r_pq">
+                            <field name="custom_lines" string="PO Orders">
+                                <tree string="orders New" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_uom"/>
+                                    <field name="company_id"/>
+                                    <field name="product_qty"/>
+                                    <field name="including_price"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+    <record id="action_purchase_order_custom" model="ir.actions.act_window">
+        <field name="name">Purchase Request</field>
+        <field name="res_model">purchase.order.custom</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Orders.
+            </p>
+        </field>
+    </record>
+    <menuitem name="Purchase Request" groups="ezp_cash_collection.group_data_user"
+              id="menu_purchase_order_custom"
+              parent="ezp_estimate.menu_pe"
+              action="action_purchase_order_custom" sequence="0"
+    />
+
+
+<!--    <record id="sale_report_custom_tree" model="ir.ui.view">-->
+<!--        <field name="name">sale.report.custom.tree</field>-->
+<!--        <field name="model">sale.report.custom</field>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <tree>-->
+<!--                <field name="name" string="Reference" invisible="1"/>-->
+<!--                <field name="from_date"/>-->
+<!--                <field name="to_date"/>-->
+<!--                <field name="partner_id"/>-->
+<!--            </tree>-->
+<!--        </field>-->
+<!--    </record>-->
+
+
+    <record id="partner_ledger_report_form" model="ir.ui.view">
+        <field name="name">partner.ledger.report.form</field>
+        <field name="model">partner.ledger.report</field>
+        <field name="arch" type="xml">
+            <form string="Today Collection">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="from_date" />
+                            <field name="to_date" />
+                            <field name="partner_id"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+
+
+                    </group>
+                      <footer>
+                        <button name="print_report" string="Ledger Tree"  type="object" class="btn-primary"/>
+                        <button name="print_reports" string="Ledger Print"  type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel" />
+                    </footer>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_partner_ledger_report" model="ir.actions.act_window">
+        <field name="name">Partner Ledger Report</field>
+        <field name="res_model">partner.ledger.report</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">form</field>
+        <field name="context">{}</field>
+        <field name="target">new</field>
+
+    </record>
+
+<!--    <menuitem name="Partner Ledger Report" id="menu_pdg"-->
+<!--              action="action_partner_ledger_report" sequence="9"-->
+<!--              parent="ezp_cash_collection.menu_chq_main"/>-->
+
+    <menuitem name="Partner Ledger Report" id="menu_pdg" groups="group_cash_manager1,group_cash_owner"
+              action="action_partner_ledger_report" sequence="9"
+              parent="ezp_cash_collection.menu_chq_main"/>
+
+
+</odoo>

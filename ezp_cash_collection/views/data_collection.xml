@@ -1,0 +1,123 @@
+<odoo>
+    <record id="estiamte_custom_pick" model="ir.ui.view">
+        <field name="name">stock.picking_withcarrier.form.view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='picking_type_id']" position="after">
+                    <field name="picking_type"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="data_entry_tree" model="ir.ui.view">
+        <field name="name">data.entry.tree</field>
+        <field name="model">data.entry</field>
+        <field name="arch" type="xml">
+            <tree create="0">
+                <field name="name" string="Reference"/>
+                <field name="partner_id"/>
+                <field name="user_id"/>
+                <field name="payment_type"/>
+                <field name="payment_method_id"/>
+                <field name="partner_type"/>
+                <field name="payment_date"/>
+                <field name="total_amount"/>
+                <field name="paid_amount"/>
+                <field name="Bal_amount"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="data_entry_form" model="ir.ui.view">
+        <field name="name">data.entry.form</field>
+        <field name="model">data.entry</field>
+        <field name="arch" type="xml">
+            <form string="Data Collection" create="0">
+                <header>
+                    <button name="action_confirm"
+                            type="object" groups="ezp_cash_collection.group_cash_manager1"
+                            string="Confirm" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_con"/>
+                    <button name="action_cancel"
+                            type="object"
+                            string="Cancel" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                            class="oe_highlight" id="approve_cancel"/>
+                    <!--                    <button name="action_confirm"-->
+                    <!--                            type="object" groups="ezp_cash_collection.group_cash_manager1"-->
+                    <!--                            string="Confirm"-->
+                    <!--                            class="oe_highlight" id="approve_con"/>-->
+                    <button name="action_statement"
+                            type="object" groups="ezp_cash_collection.group_cash_user"
+                            string="PRINT STATEMENT"
+                            class="oe_highlight" id="approve_stmt"/>
+                    <button name="action_statement_cashier"
+                            type="object"
+                            string="PRINT STATEMENT CASHIER" groups="ezp_cash_collection.group_cash_manager1"
+                            class="oe_highlight" id="approve_stmt1"/>
+                    <field name="state" select="2" widget="statusbar"
+                           statusbar_visible="draft,validate,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="payment_type"/>
+                            <field name="cashier_id" groups="ezp_cash_collection.group_cash_manager1"/>
+                            <field name="payment_method_id"/>
+                            <field name="payment_date"/>
+
+
+                        </group>
+                        <group>
+                            <field name="user_id"
+                                   attrs="{'required':[('state','=','draft')], 'readonly':[('state','!=','draft')]}"/>
+                            <field name="partner_type"/>
+                            <field name="total_amount"/>
+                            <field name="paid_amount"/>
+                            <field name="Bal_amount"/>
+                        </group>
+
+                    </group>
+                    <notebook>
+                        <page name="exec coll" string="Executive Collection">
+                            <field name="partner_invoices" colspan="4">
+                                <tree string="Room Line" editable="bottom">
+                                    <field name="estimate_id"/>
+                                    <field name="invoice_id"/>
+                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                    <field name="date"/>
+                                    <field name="journal_id"/>
+                                    <field name="balance_amount"/>
+                                    <field name="amount_total"/>
+                                    <field name="payments" widget="many2many_tags"/>
+                                </tree>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_direct_collection" model="ir.actions.act_window">
+        <field name="name">Direct Collection</field>
+        <field name="res_model">data.entry</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+    <menuitem name="Direct Collection" id="menu_data_collection"
+              action="action_direct_collection" sequence="5" groups="ezp_cash_collection.group_data_user,group_cash_owner"
+              parent="menu_cash_collection1"/>
+
+</odoo>

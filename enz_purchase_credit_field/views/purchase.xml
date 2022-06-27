@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="starw_purchase_order_trees" model="ir.ui.view">
+            <field name="name">purchase.order.tree</field>
+            <field name="model">purchase.order</field>
+             <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+         <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="credit_po_amount"/>
+                </xpath>
+         </field>
+    </record>
+<record id="starw_purchase_order_trees_k" model="ir.ui.view">
+            <field name="name">purchase.order.tree</field>
+            <field name="model">purchase.order</field>
+             <field name="inherit_id" ref="purchase.purchase_order_kpis_tree"/>
+         <field name="arch" type="xml">
+                <xpath expr="//field[@name='amount_total']" position="after">
+                    <field name="credit_po_amount"/>
+                </xpath>
+         </field>
+    </record>
+</odoo>

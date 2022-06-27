@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="repo_cheque_collection">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ezp_cash_collection.daily_report_pos_layout">
+                    <div class="page">
+                        <h2 style="font-style:oblique;font-weight:bold;">
+                            <center>
+                                <u>
+                                    <span t-field="o.user_id"/> Cheque
+                                    Collection
+                                </u>
+                            </center>
+                        </h2>
+                        <h6 style="color:#ca0c37;">PAYMENT DATE :
+                            <span style="color:blue;" t-field="o.payment_date"/>
+                        </h6>
+
+                        <table style="width:100%">
+
+                            <t t-set="i" t-value="1"/>
+
+                            <tr>
+                                <td style="color:#ca0c37;" >PAYMENT TYPE :</td>
+                                <td colspan="2" >
+                                    <span style="color:blue;" t-field="o.payment_type"/>
+                                </td>
+                                <td style="color:#ca0c37;" colspan="2">PARTNER TYPE :</td>
+                                <td style="color:blue;" colspan="2">
+                                    <span t-field="o.partner_type"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#86827f;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Estimator</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque No</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque Type</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque Date</b>
+                                    </center>
+                                </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Bank Name</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Account Type</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Holder Name</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Balance Amount</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Cheque Amount</b>
+                                 </center>
+                             </td>
+
+                            </tr>
+
+                            <t t-foreach="o.partner_invoices" t-as="l">
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.partner_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.date"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.check_no"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.check_type"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <t t-if="l.check_type == 'cash'">
+                                            <span t-field="l.check_date"/>
+                                            </t>
+                                            <t t-if="l.check_type == 'pdc'">
+                                            <span t-field="l.check_manual_date"/>
+                                            </t>
+
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.bank_name"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+<!--                                            <span t-field="l.account_type"/>-->
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.holder_name"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.balance_amount"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.amount_total"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                            <tr>
+                                <td colspan="8"/>
+                                <td style="text-align:center;border:1px solid black;color:green">Total Cheque Collected Amount</td>
+                                <td style="text-align:center;border:1px solid black;color:red" >
+                                    <t t-esc="sum(o.mapped('partner_invoices').mapped('amount_total'))"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+    <template id="repo_cash_pay">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ezp_cash_collection.daily_report_pos_layout">
+                    <div class="page">
+                        <h2 style="font-style:oblique;font-weight:bold;">
+                            <center>
+                                <u>
+                                    Collections &amp;
+                                    Payments
+                                </u>
+                            </center>
+                        </h2>
+                        <h6 style="color:#ca0c37;">PAYMENT DATE :
+                            <span style="color:blue;" t-field="o.payment_date"/>
+                        </h6>
+
+                        <table style="width:100%">
+
+                            <t t-set="i" t-value="1"/>
+                            <tr>
+                                <td style="color:#ca0c37;" colspan="1">Payment Type :</td>
+                                <td colspan="2">
+                                    <span style="color:blue;" t-field="o.payment_type" colspan="2"/>
+                                </td>
+                                <td style="color:#ca0c37;" >Partner Type :</td>
+                                <td style="color:blue;" colspan="2">
+                                    <span t-field="o.partner_type"/>
+                                </td>
+                                </tr>
+                            <tr>
+                                <td style="color:#ca0c37;" >Partner:</td>
+                                <td style="color:blue;" colspan="2">
+                                    <span t-field="o.partner_id"/>
+                                </td>
+                                <td style="color:#ca0c37;" >Payment Journal:</td>
+                                <td style="color:blue;" colspan="2" >
+                                    <span t-field="o.journal_id"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#86827f;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Invoice</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Invoice Date</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Invoice Due Date</b>
+                                    </center>
+                                </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Payments</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Status</b>
+                                 </center>
+                             </td>
+                                  <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Amount Total</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Due Amount</b>
+                                    </center>
+                                </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Paid Amount</b>
+                                 </center>
+                             </td>
+                            </tr>
+
+                            <t t-foreach="o.partner_invoices" t-as="l">
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.invoice_id"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.invoice_date"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.invoice_due_date"/>
+                                        </center>
+                                    </td>
+
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.payments"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.state"/>
+                                        </center>
+                                    </td>
+                                     <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <t t-esc="l.amount_total"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <t t-esc="l.residual"/>
+
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <t t-esc="l.total_paid"/>
+                                        </center>
+                                    </td>
+                                </tr>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                            <tr>
+                                <td colspan="6"/>
+                                <td style="text-align:center;border:1px solid black;color:green">Total Amount</td>
+                                <td style="text-align:center;border:1px solid black;color:red" >
+                                    <t t-esc="sum(o.mapped('partner_invoices').mapped('total_paid'))"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+<!--    #########today_date-->
+        <template id="repo_cheque_collection1">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="ezp_cash_collection.daily_report_pos_layout">
+                    <div class="page">
+                        <h2 style="font-style:oblique;font-weight:bold;">
+                            <center>
+                                <u>
+                                    <span t-field="o.payment_date"/> Cheques
+                                </u>
+                            </center>
+                        </h2>
+                        <table style="width:100%">
+
+                            <t t-set="i" t-value="1"/>
+
+                            <tr>
+                                <td style="color:#ca0c37;" colspan="2" >Responsible Person:</td>
+                                <td colspan="2" >
+                                    <span style="color:blue;" t-field="o.user_id"/>
+                                </td>
+                            </tr>
+                            <tr style="background-color:#86827f;">
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Source</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Partner</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque No</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque Type</b>
+                                    </center>
+                                </td>
+                                <td colspan="1" style="border:1px solid black;">
+                                    <center>
+                                        <b>Cheque Date</b>
+                                    </center>
+                                </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Bank Name</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Account Type</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Holder Name</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Balance Amount</b>
+                                 </center>
+                             </td>
+                             <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Cheque Amount</b>
+                                 </center>
+                             </td>
+  <td colspan="1" style="border:1px solid black;">
+                                 <center>
+                                     <b>Debited Bank</b>
+                                 </center>
+                             </td>
+
+                            </tr>
+
+                            <t t-foreach="o.today_lines" t-as="l">
+                                <tr>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.ref_id"/>
+                                        </center>
+                                    </td> <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.partner_id"/>
+                                        </center>
+                                    </td>
+
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.check_no"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.check_type"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <t t-if="l.check_type == 'cash'">
+                                            <span t-field="l.check_date"/>
+                                            </t>
+                                            <t t-if="l.check_type == 'pdc'">
+                                            <span t-field="l.check_manual_date"/>
+                                            </t>
+
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.bank_name"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+<!--                                            <span t-field="l.account_type"/>-->
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.holder_name"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.balance_amount"/>
+                                        </center>
+                                    </td>
+                                    <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.debited_account"/>
+                                        </center>
+                                    </td>
+        <td colspan="1" style="border:1px solid black;">
+                                        <center>
+                                            <span t-field="l.amount_total"/>
+                                        </center>
+                                    </td>
+
+                                </tr>
+
+
+                                <t t-set="i" t-value="i+1"/>
+
+                            </t>
+                            <tr>
+                                <td colspan="8"/>
+                                <td colspan="2" style="text-align:center;border:1px solid black;color:green">Debited Amount</td>
+                                <td style="text-align:center;border:1px solid black;color:red" >
+                                    <t t-esc="sum(o.mapped('today_lines').mapped('amount_total'))"/>
+                                </td>
+
+                            </tr>
+
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

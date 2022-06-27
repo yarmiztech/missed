@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <template id="repo_ledger">
+        <t t-call="web.html_container">
+            <!--        <t t-call="ezp_cash_collection.daily_report_pos_layout">-->
+            <div class="page">
+                <h2 style="font-style:oblique;font-weight:bold;">
+                    <!--                        <center>-->
+                    <!--                            <u>-->
+                    <!--                                <span t-field="o.cashier_id"/>-->
+                    <!--                                Collection-->
+                    <!--                            </u>-->
+                    <!--                        </center>-->
+                </h2>
+
+                <table class="table" style="border:1px solid black;width:100%">
+                    <tr>
+
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Date</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Description</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Unit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Rate</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Debit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Credit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Balance</strong>
+                            </center>
+                        </td>
+                    </tr>
+                    <t t-set="i" t-value="1"/>
+                    <t t-foreach="docs" t-as="o">
+                        <tr>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.date.strftime('%d-%m -%Y')"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.description"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <b>
+                                        <t t-esc="o.price_units"/>
+                                        <t t-esc="o.uom.name"/>
+                                    </b>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.rate"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.debit"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.credit"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.balance"/>
+                                </center>
+                            </td>
+                        </tr>
+                        <t t-set="i" t-value="i+1"/>
+                    </t>
+
+                </table>
+            </div>
+        </t>
+        <!--        </t>-->
+    </template>
+    <template id="repo_ledger1">
+        <t t-call="web.html_container">
+            <!--        <t t-call="ezp_cash_collection.daily_report_pos_layout">-->
+            <div class="page">
+                <h2 style="font-style:oblique;font-weight:bold;">
+                    <!--                        <center>-->
+                    <!--                            <u>-->
+                    <!--                                <span t-field="o.cashier_id"/>-->
+                    <!--                                Collection-->
+                    <!--                            </u>-->
+                    <!--                        </center>-->
+                </h2>
+
+                <table class="table table-sm table-bordered" style="border:1px solid black;width:100%">
+                    <tr>
+                        <td colspan="7">
+                            <strong><center>Ledger Of &amp;nbsp;
+                            <t t-esc="docs.partner_id.name"/> &amp;nbsp;from &amp;nbsp;
+                            <t t-esc="docs.from_date.strftime('%d-%m -%Y')"/> &amp;nbsp; To &amp;nbsp;
+                                <t t-esc="docs.to_date.strftime('%d-%m -%Y')"/></center></strong>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Date</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Description</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Unit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Rate</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Debit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Credit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Balance</strong>
+                            </center>
+                        </td>
+                    </tr>
+                    <t t-set="i" t-value="1"/>
+                    <t t-foreach="docs.print_all()" t-as="o">
+                        <tr>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.date.strftime('%d-%m -%Y')"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.description"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <b>
+                                        <t t-esc="o.price_units"/>
+                                        <t t-esc="o.uom.name"/>
+                                    </b>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.rate"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.debit"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.credit"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.balance"/>
+                                </center>
+                            </td>
+                        </tr>
+
+                        <t t-set="i" t-value="i+1"/>
+                    </t>
+                       <tr>
+                            <td style="border:1px solid black;"></td>
+                            <td style="border:1px solid black;">
+                                <strong>
+                                <center>
+                                   Grand Total
+                                </center>
+                                </strong>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <strong><center>
+                                    <t t-esc="sum(docs.print_all().mapped('price_units'))"/></center></strong>
+
+                            </td>
+                           <td style="border:1px solid black;"></td>
+                            <td style="border:1px solid black;">
+                               <strong><center> <t t-esc="sum(docs.print_all().mapped('debit'))"/></center></strong>
+
+                            </td>
+                            <td style="border:1px solid black;">
+                                <strong><center><t t-esc="sum(docs.print_all().mapped('credit'))"/></center></strong>
+
+                            </td>
+                           <td style="border:1px solid black;"></td>
+
+                        </tr>
+
+                </table>
+            </div>
+        </t>
+        <!--        </t>-->
+    </template>
+    <template id="repo_cashbook">
+        <t t-call="web.html_container">
+            <!--        <t t-call="ezp_cash_collection.daily_report_pos_layout">-->
+            <div class="page">
+                <h2 style="font-style:oblique;font-weight:bold;">
+                    <!--                        <center>-->
+                    <!--                            <u>-->
+                    <!--                                <span t-field="o.cashier_id"/>-->
+                    <!--                                Collection-->
+                    <!--                            </u>-->
+                    <!--                        </center>-->
+                </h2>
+
+                <table class="table" style="border:1px solid black;width:100%">
+                      <tr>
+                        <td colspan="7">
+                            <strong><center>Cash Book Of &amp;nbsp;
+                            &amp;nbsp;from &amp;nbsp;
+                            <t t-esc="docs.from_date.strftime('%d-%m -%Y')"/> &amp;nbsp; To &amp;nbsp;
+                                <t t-esc="docs.to_date.strftime('%d-%m -%Y')"/></center></strong>
+                        </td>
+                    </tr>
+                    <tr>
+
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Date</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Description</strong>
+                            </center>
+                        </td>
+<!--                        <td style="border:1px solid black;">-->
+<!--                            <center>-->
+<!--                                <strong>Unit</strong>-->
+<!--                            </center>-->
+<!--                        </td>-->
+<!--                        <td style="border:1px solid black;">-->
+<!--                            <center>-->
+<!--                                <strong>Rate</strong>-->
+<!--                            </center>-->
+<!--                        </td>-->
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Debit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Credit</strong>
+                            </center>
+                        </td>
+                        <td style="border:1px solid black;">
+                            <center>
+                                <strong>Balance</strong>
+                            </center>
+                        </td>
+                    </tr>
+                    <t t-set="i" t-value="1"/>
+                    <t t-foreach="docs.report_lines" t-as="o">
+                        <tr>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.date.strftime('%d-%m -%Y')"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.description"/>
+                                </center>
+                            </td>
+<!--                            <td style="border:1px solid black;">-->
+<!--&lt;!&ndash;                                <center>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    <b>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-esc="o.price_units"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                        <t t-esc="o.uom.name"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                                    </b>&ndash;&gt;-->
+<!--&lt;!&ndash;                                </center>&ndash;&gt;-->
+<!--                            </td>-->
+<!--                            <td style="border:1px solid black;">-->
+<!--                                <center>-->
+<!--                                    <t t-esc="o.rate"/>-->
+<!--                                </center>-->
+<!--                            </td>-->
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.debit"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.credit"/>
+                                </center>
+                            </td>
+                            <td style="border:1px solid black;">
+                                <center>
+                                    <t t-esc="o.balance"/>
+                                </center>
+                            </td>
+                        </tr>
+                        <t t-set="i" t-value="i+1"/>
+                    </t>
+                     <tr>
+                            <td style="border:1px solid black;"></td>
+                            <td style="border:1px solid black;">
+                                <strong>
+                                <center>
+                                   Grand Total
+                                </center>
+                                </strong>
+                            </td>
+                            <td style="border:1px solid black;">
+                               <strong><center> <t t-esc="sum(docs.report_lines.mapped('debit'))"/></center></strong>
+
+                            </td>
+                            <td style="border:1px solid black;">
+                                <strong><center><t t-esc="sum(docs.report_lines.mapped('credit'))"/></center></strong>
+
+                            </td>
+                           <td style="border:1px solid black;"></td>
+
+                        </tr>
+
+                </table>
+            </div>
+        </t>
+        <!--        </t>-->
+    </template>
+
+
+
+</odoo>

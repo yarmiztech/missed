@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+     <record id="estimate_type_report_tree" model="ir.ui.view">
+        <field name="name">estimate.type.report.tree</field>
+        <field name="model">estimate.type.report</field>
+        <field name="arch" type="xml">
+            <tree string="Executive Report">
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="estimate_type_report_form" model="ir.ui.view">
+        <field name="name">estimate.type.report.form</field>
+        <field name="model">estimate.type.report</field>
+        <field name="arch" type="xml">
+            <form string="Executive Report">
+                <header>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                        <group>
+                            <field name="company_id" readonly="1"/>
+                            <field name="type" widget="radio"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="est_lines" string="Full Report">
+                            <field name="est_lines" colspan="4" mode="tree,kanban"  widget="section_and_note_one2many">
+                                <tree string="Executive Full Report">
+                                    <field name="create_date"/>
+                                    <field name="partner_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="outstanding"/>
+<!--                                    <field name="subtotal"/>-->
+                                </tree>
+
+                                <kanban class="o_kanban_mobile">
+                                    <field name="create_date"/>
+                                    <field name="partner_id"/>
+                                    <field name="product_id"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="outstanding"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+<!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <strong>
+                                                                <span>
+                                                                    Date:
+                                                                    <field name="create_date"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <strong>
+
+                                                                <span class="float-right text-right">
+                                                                    Partner:
+                                                                    <field name="partner_id"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+
+                                                            <span>
+                                                                    Product:
+                                                                <field name="product_id"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+
+                                                            <span>
+                                                                Outstanding:
+                                                                <field name="outstanding"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+<!--                                                </t>-->
+<!--                                                <t t-if="record.display_type.raw_value === 'line_section' || record.display_type.raw_value === 'line_note'">-->
+<!--                                                    <div class="row">-->
+<!--                                                        <div class="col-12">-->
+<!--                                                            <span>-->
+<!--                                                                <t t-esc="record.name.value"/>-->
+<!--                                                            </span>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </t>-->
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_estimate_type_report" model="ir.actions.act_window">
+        <field name="name">Complete Target Report</field>
+        <field name="res_model">estimate.type.report</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+
+    <menuitem name="Complete Target Report" id="menu_estimate_type_report"
+              action="action_estimate_type_report" sequence="5"
+              parent="menu_ow_reports"/>
+
+
+
+
+     <record id="today_visiting_remainder_tree" model="ir.ui.view">
+        <field name="name">today.visiting.remainder.tree</field>
+        <field name="model">today.visiting.remainder</field>
+        <field name="arch" type="xml">
+            <tree string="Executive Report">
+                  <field name="create_date"/>
+                   <field name="sales_person"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="today_visiting_remainder_form" model="ir.ui.view">
+        <field name="name">today.visiting.remainder.form</field>
+        <field name="model">today.visiting.remainder</field>
+        <field name="arch" type="xml">
+            <form string="Executive Reports">
+                <header>
+                     <button name="action_submit" states="draft"  class="oe_highlight" string="Confirm"
+                            type="object"/>
+                       <field name="state" widget="statusbar" statusbar_visible="draft"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="create_date"/>
+                            <field name="sales_person" domain="[('user_id','!=',False)]"/>
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="company_id" readonly="1"/>-->
+<!--                            <field name="type" widget="radio"/>-->
+<!--                        </group>-->
+                    </group>
+                    <notebook>
+                        <page name="next_v_lines" string="Visit Report">
+                            <field name="next_v_lines" mode="tree,kanban"  widget="section_and_note_one2many">
+                                <tree string="visiting Full Report" editable="bottom">
+                                    <field name="partner_id" domain="[('estimator','=',True)]"/>
+                                    <field name="partner_area"/>
+                                    <field name="out_standing_balance"/>
+                                    <field name="state"/>
+                                    <field name="reason"/>
+                                    <field name="next_visit_date"/>
+                                </tree>
+
+                                <kanban class="o_kanban_mobile">
+                                    <field name="partner_id"/>
+                                    <field name="partner_area"/>
+                                    <field name="out_standing_balance"/>
+                                    <field name="state"/>
+                                    <field name="reason"/>
+                                    <field name="next_visit_date"/>
+                                    <templates>
+                                        <t t-name="kanban-box">
+                                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+<!--                                                <t t-if="!record.display_type.raw_value">-->
+                                                    <div class="row">
+                                                        <div class="col-8">
+                                                            <strong>
+                                                                <span>
+                                                                    Partner:
+                                                                    <field name="partner_id"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <strong>
+
+                                                                <span class="float-right text-right">
+                                                                    area:
+                                                                    <field name="partner_area"/>
+                                                                </span>
+                                                            </strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+
+                                                            <span>
+                                                                    State:
+                                                                <field name="state"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 text-muted">
+
+                                                            <span>
+                                                                Outstanding:
+                                                                <field name="out_standing_balance"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                        </t>
+                                    </templates>
+                                </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+        <record id="action_today_visiting_remainder" model="ir.actions.act_window">
+        <field name="name">Next Visiting Manual</field>
+        <field name="res_model">today.visiting.remainder</field>
+<!--        <field name="view_type">form</field>-->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+    </record>
+
+  <menuitem name="Next Visiting Manual" id="menu_Next_Visiting" groups="ezp_cash_collection.group_cash_user"
+              action="action_today_visiting_remainder" sequence="10"
+              parent="ezp_estimate.menu_estimate_main"/>
+
+
+
+
+
+
+</odoo>
